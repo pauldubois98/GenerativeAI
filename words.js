@@ -1,9 +1,5 @@
 const ALPHABET = 'abcdefghijklmnopqrstuvwxyz-*';
 const WORDS_LIST = [
-	'^**',
-	'^***',
-	'^****',
-	'^******',
 	'^a*',
 	'^a-buzz*',
 	'^a-tiptoe*',

@@ -1,7 +1,3 @@
-*
-**
-***
-*****
 a
 a-buzz
 a-tiptoe
