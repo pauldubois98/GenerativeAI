@@ -11,12 +11,32 @@
             flex-direction: column;
             align-items: center;
         }
+        #bars{
+            display: flex;
+            flex-direction: column;
+            align-items: left;
+        }
+        .bar {
+            width: 100px;
+            height: 20px;
+            background-color: red;
+            transition: all 0.5s ease;
+            padding: 3px;
+            margin: 5px;
+        }
     </style>
 </head>
 
 <body>
     <h1>Futur Letters</h1>
     <input type="text" name="input" placeholder="begin word...">
+    <div id="bars">
+        <div class="bar" id="bar_a">a</div>
+        <div class="bar" id="bar_b"></div>
+        <div class="bar" id="bar_c"></div>
+        <div class="bar" id="bar_d"></div>
+        <div class="bar" id="bar_e"></div>
+    </div>
 </body>
 
 </html>
