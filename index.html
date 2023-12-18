@@ -23,8 +23,8 @@
             height: 20px;
             background-color: red;
             transition: all 0.5s ease;
-            padding: 3px;
-            margin: 5px;
+            padding: 1px;
+            margin: 2px;
         }
     </style>
 </head>
@@ -33,16 +33,15 @@
     <h1>Futur Letters</h1>
     <input type="text" name="input" placeholder="begin word...">
     <div id="bars">
-        <div class="bar" id="bar_a">a</div>
-        <div class="bar" id="bar_b"></div>
-        <div class="bar" id="bar_c"></div>
-        <div class="bar" id="bar_d"></div>
-        <div class="bar" id="bar_e"></div>
     </div>
 </body>
 <script src="words.js"></script>
 <script>
     console.log(ALPHABET);
+    bars.innerHTML = "";
+    for(ch of ALPHABET){
+        bars.innerHTML += `<div class="bar" id="bar_${ch}">${ch}</div>`;
+    }
 </script>
 
 </html>
