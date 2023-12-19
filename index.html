@@ -56,6 +56,37 @@
     for (ch of ALPHABET) {
         bars.innerHTML += `<div class="bar" id="bar_${ch}">${ch}</div>`;
     }
+
+    function updateBars(n = 1) {
+        var raw_input = document.getElementById("input_letters").value;
+        const letters_input = raw_input.slice(Math.max(raw_input.length - n, 0))
+        n_input = Math.min(n, raw_input.length);
+        // console.log(letters_input, n_input);
+        var bars = [];
+        for (let i = 0; i < ALPHABET.length; i++) {
+            bars.push(0);
+        }
+        var c = 0;
+        for (let k = 0; k < WORDS_LIST.length; k++) {
+            const word = WORDS_LIST[k];
+            var i = 0;
+            while (i + n_input + 1 < word.length) {
+                if (word.slice(i, i + n_input) == letters_input) {
+                    bars[ALPHABET.indexOf(word[i + n_input])]++;
+                    c++;
+                }
+                i++;
+            }
+        }
+        // console.log(bars);
+        const bars_max = Math.max(...bars);
+        for (let i = 0; i < ALPHABET.length; i++) {
+            const ch = ALPHABET[i];
+            const bar = document.getElementById(`bar_${ch}`);
+            // bar.style.width = `${1000 * bars[i] / c}%`;
+            bar.style.width = `${300 * bars[i] / bars_max}%`;
+        }
+    }
 </script>
 
 </html>
