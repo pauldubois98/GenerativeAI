@@ -92,7 +92,7 @@
     }
     bars.innerHTML = "";
     for (ch of ALPHABET) {
-        bars.innerHTML += `<div class="bar" id="bar_${ch}">${ch}</div>`;
+        bars.innerHTML += `<div class="bar" id="bar_${ch}" onclick="add_letter('${ch}');updateBars();">${ch}</div>`;
     }
 
     function updateBars(n = 1) {
