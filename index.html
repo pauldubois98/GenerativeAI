@@ -87,6 +87,9 @@
 <script src="words.js"></script>
 <script>
     console.log(ALPHABET);
+    function add_letter(ch) {
+        document.getElementById("input_letters").value += ch;
+    }
     bars.innerHTML = "";
     for (ch of ALPHABET) {
         bars.innerHTML += `<div class="bar" id="bar_${ch}">${ch}</div>`;
