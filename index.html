@@ -12,6 +12,19 @@
             align-items: center;
         }
 
+        h1 {
+            font-size: 2.5em;
+            margin-top: 0.25em;
+            margin-bottom: 0.25em;
+        }
+
+        #input_letters {
+            font-size: 1.5em;
+            width: 300px;
+            margin-top: 0.25em;
+            margin-bottom: 0.25em;
+        }
+
         #bars {
             display: flex;
             flex-direction: column;
@@ -20,18 +33,19 @@
 
         .bar {
             width: 100px;
-            height: 20px;
             background-color: red;
             transition: all 0.5s ease;
             padding: 1px;
-            margin: 2px;
+            margin: 5px;
+            font-size: 1.5em;
+            padding-left: 0.25em;
         }
     </style>
 </head>
 
 <body>
     <h1>Futur Letters</h1>
-    <input type="text" name="input" placeholder="begin word...">
+    <input id="input_letters" type="text" name="input" placeholder="begin word...">
     <div id="bars">
     </div>
 </body>
@@ -39,7 +53,7 @@
 <script>
     console.log(ALPHABET);
     bars.innerHTML = "";
-    for(ch of ALPHABET){
+    for (ch of ALPHABET) {
         bars.innerHTML += `<div class="bar" id="bar_${ch}">${ch}</div>`;
     }
 </script>
