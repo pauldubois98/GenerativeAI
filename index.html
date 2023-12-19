@@ -160,6 +160,23 @@
     function add_letter(ch) {
         document.getElementById("input_letters").value += ch;
     }
+    function add_random() {
+        var ch = " ";
+        if (total == 0) {
+            ch = ALPHABET[Math.floor(Math.random() * ALPHABET.length)];
+        } else {
+            var r = Math.random();
+            var k = 0;
+            var s = 0;
+            while (r > s) {
+                s += bars[k] / total;
+                k++;
+            }
+            ch = ALPHABET[k - 1]
+        }
+        document.getElementById("input_letters").value += ch;
+        updateBars();
+    }
 
     async function init() {
         var all_bars = document.getElementById('bars');
