@@ -25,6 +25,10 @@
             margin-bottom: 0.25em;
         }
 
+        #input_letters::first-letter {
+            color: red;
+        }
+
         #bars {
             display: flex;
             flex-direction: column;
@@ -40,14 +44,45 @@
             font-size: 1.5em;
             padding-left: 0.25em;
         }
+
+        #split {
+            display: flex;
+            flex-direction: row;
+        }
+
+        #letters {
+            font-size: 1.6em;
+            padding-right: 0.35em;
+            /* width: 50%; */
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        #letters_type1 {}
+
+        #letters_type2 {
+            font-weight: bold;
+            color: red;
+        }
     </style>
 </head>
 
 <body>
     <h1>Futur Letters</h1>
-    <input id="input_letters" type="text" name="input" placeholder="begin word...">
-    <div id="bars">
+    <div>
+        <input id="input_letters" type="text" name="input" placeholder="begin word...">
+        <div id="split">
+            <div id="letters">
+                <p id="letters_type1"></p>
+                <p id="letters_type2"></p>
+            </div>
+            <div id="bars"></div>
+        </div>
     </div>
+
+
 </body>
 <script src="words.js"></script>
 <script>
@@ -61,6 +96,8 @@
         var raw_input = document.getElementById("input_letters").value;
         const letters_input = raw_input.normalize("NFD").replace(/[\u0300-\u036f]/g, "").slice(Math.max(raw_input.length - n, 0))
         n_input = Math.min(n, raw_input.length);
+        document.getElementById("letters_type1").innerText = raw_input.slice(0, Math.max(raw_input.length - n, 0));
+        document.getElementById("letters_type2").innerText = letters_input;
         // console.log(letters_input, n_input);
         var bars = [];
         for (let i = 0; i < ALPHABET.length; i++) {
@@ -88,7 +125,6 @@
         }
     }
     updateBars();
-
     document.getElementById("input_letters").addEventListener("input", () => {
         updateBars(1);
     });
