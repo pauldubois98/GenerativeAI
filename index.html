@@ -18,6 +18,7 @@
             margin-bottom: 0.25em;
         }
 
+
         #input_letters {
             font-size: 1.5em;
             width: 300px;
@@ -25,8 +26,24 @@
             margin-bottom: 0.25em;
         }
 
-        #input_letters::first-letter {
-            color: red;
+        #used_letter {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        #used_letter_range {
+            width: 225px;
+            margin-top: 0.25em;
+            margin-bottom: 0.25em;
+            margin-right: 10px;
+        }
+
+        #used_letter_number {
+            width: 50px;
+            margin-top: 0.25em;
+            margin-bottom: 0.25em;
+            margin-left: 10px;
         }
 
         #bars {
@@ -84,7 +101,13 @@
 <body>
     <h1>Futur Letters</h1>
     <div>
-        <input id="input_letters" type="text" name="input" placeholder="begin word...">
+        <div id="used_letter">
+            <input id="used_letter_range" type="range" name="used_letter" min="0" max="10" value="1" />
+            <input id="used_letter_number" type="number" value="1" />
+        </div>
+        <div>
+            <input id="input_letters" type="text" name="input" placeholder="begin word...">
+        </div>
         <div id="split">
             <div id="letters">
                 <p id="letters_type1"></p>
