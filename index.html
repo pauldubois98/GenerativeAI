@@ -131,7 +131,7 @@
 
     bars.innerHTML = "";
     for (ch of ALPHABET) {
-        bars.innerHTML += `<div class="bar" id="bar_${ch}" onclick="add_letter('${ch}');updateBars();">${ch}</div>`;
+        bars.innerHTML += `<div class="bar" id="bar_${ch}" onclick="add_letter('${ch}');updateBars();">${ch} <span id="percent_${ch}"></span></div>`;
     }
 
     function updateBars(n = undefined) {
@@ -167,6 +167,8 @@
                 const ch = ALPHABET[i];
                 const bar = document.getElementById(`bar_${ch}`);
                 bar.style.width = "100px";
+                const percent = document.getElementById(`percent_${ch}`);
+                percent.innerText = "";
             }
         } else {
             for (let i = 0; i < ALPHABET.length; i++) {
@@ -174,6 +176,8 @@
                 const bar = document.getElementById(`bar_${ch}`);
                 // bar.style.width = `${1000 * bars[i] / c}%`;
                 bar.style.width = `${300 * bars[i] / bars_max}%`;
+                const percent = document.getElementById(`percent_${ch}`);
+                percent.innerText = Math.round(100 * bars[i] / c) + "%";
             }
         }
 
