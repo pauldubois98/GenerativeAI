@@ -161,9 +161,14 @@
         document.getElementById("input_letters").value += ch;
     }
 
-    bars.innerHTML = "";
-    for (ch of ALPHABET) {
-        bars.innerHTML += `<div class="bar" id="bar_${ch}" onclick="add_letter('${ch}');updateBars();">${ch} <span id="percent_${ch}"></span></div>`;
+    async function init() {
+        var all_bars = document.getElementById('bars');
+        all_bars.innerHTML = "";
+        for (ch of ALPHABET) {
+            all_bars.innerHTML += `<div class="bar" id="bar_${ch}" onclick="add_letter('${ch}');updateBars();">${ch} <span id="percent_${ch}"></span></div>`;
+        }
+        await new Promise(r => setTimeout(r, 10));
+        updateBars();
     }
 
     function updateBars(n = undefined) {
