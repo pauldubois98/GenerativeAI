@@ -59,7 +59,7 @@
 
     function updateBars(n = 1) {
         var raw_input = document.getElementById("input_letters").value;
-        const letters_input = raw_input.slice(Math.max(raw_input.length - n, 0))
+        const letters_input = raw_input.normalize("NFD").replace(/[\u0300-\u036f]/g, "").slice(Math.max(raw_input.length - n, 0))
         n_input = Math.min(n, raw_input.length);
         // console.log(letters_input, n_input);
         var bars = [];
