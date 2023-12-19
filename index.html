@@ -151,6 +151,12 @@
     console.log(WORDS_LIST.length);
     console.log(ALPHABET);
 
+    var bars = [];
+    for (let i = 0; i < ALPHABET.length; i++) {
+        bars.push(0);
+    }
+    var total = 0;
+
     function add_letter(ch) {
         document.getElementById("input_letters").value += ch;
     }
