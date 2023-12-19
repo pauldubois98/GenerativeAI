@@ -87,6 +87,10 @@
             bar.style.width = `${300 * bars[i] / bars_max}%`;
         }
     }
+
+    document.getElementById("input_letters").addEventListener("input", () => {
+        updateBars(1);
+    });
 </script>
 
 </html>
