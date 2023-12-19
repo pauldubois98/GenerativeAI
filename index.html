@@ -96,15 +96,15 @@
 
 
 </body>
-<script src="words.js"></script>
+<script src="words_extended.js"></script>
 <script>
-    const ALPHABET = 'abcdefghijklmnopqrstuvwxyz-*';
+    const ALPHABET = '^abcdefghijklmnopqrstuvwxyz-*';
     console.log(ALPHABET);
 
     function add_letter(ch) {
         document.getElementById("input_letters").value += ch;
     }
-    
+
     bars.innerHTML = "";
     for (ch of ALPHABET) {
         bars.innerHTML += `<div class="bar" id="bar_${ch}" onclick="add_letter('${ch}');updateBars();">${ch}</div>`;
@@ -135,14 +135,23 @@
         }
         // console.log(bars);
         const bars_max = Math.max(...bars);
-        for (let i = 0; i < ALPHABET.length; i++) {
-            const ch = ALPHABET[i];
-            const bar = document.getElementById(`bar_${ch}`);
-            // bar.style.width = `${1000 * bars[i] / c}%`;
-            bar.style.width = `${300 * bars[i] / bars_max}%`;
+        if (bars_max == 0) {
+            for (let i = 0; i < ALPHABET.length; i++) {
+                const ch = ALPHABET[i];
+                const bar = document.getElementById(`bar_${ch}`);
+                bar.style.width = "100px";
+            }
+        } else {
+            for (let i = 0; i < ALPHABET.length; i++) {
+                const ch = ALPHABET[i];
+                const bar = document.getElementById(`bar_${ch}`);
+                // bar.style.width = `${1000 * bars[i] / c}%`;
+                bar.style.width = `${300 * bars[i] / bars_max}%`;
+            }
         }
+
     }
-    
+
     updateBars();
     document.getElementById("input_letters").addEventListener("input", () => {
         updateBars(1);
