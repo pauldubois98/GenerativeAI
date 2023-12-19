@@ -130,8 +130,14 @@
 <script src="words_extended.js"></script>
 <script src="mots_extended.js"></script>
 <script>
-    const ALPHABET = 'abcdefghijklmnopqrstuvwxyz-^*';
-    console.log(ALPHABET);
+    let params = new URLSearchParams(document.location.search);
+    // no_start_end
+    if (params.get("no_start_end").toLocaleLowerCase() === 'true') {
+        const ALPHABET = 'abcdefghijklmnopqrstuvwxyz-';
+    }
+    else {
+        const ALPHABET = 'abcdefghijklmnopqrstuvwxyz-^*';
+    }
 
     function add_letter(ch) {
         document.getElementById("input_letters").value += ch;
