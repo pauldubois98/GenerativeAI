@@ -132,21 +132,24 @@
 <script>
     let params = new URLSearchParams(document.location.search);
     // no_start_end
-    if (params.get("no_start_end").toLocaleLowerCase() === 'true') {
-        const ALPHABET = 'abcdefghijklmnopqrstuvwxyz-';
+    var ALPHABET;
+    if (params.has("no_start_end") && params.get("no_start_end").toLocaleLowerCase() === 'true') {
+        ALPHABET = 'abcdefghijklmnopqrstuvwxyz-';
     }
     else {
-        const ALPHABET = 'abcdefghijklmnopqrstuvwxyz-^*';
+        ALPHABET = 'abcdefghijklmnopqrstuvwxyz-^*';
     }
     // language
-    if (params.get("language").toLocaleLowerCase() == "fr") {
-        const WORDS_LIST = MOTS_EXTENDED;
+    var WORDS_LIST;
+    if (params.has("language") && params.get("language").toLocaleLowerCase() == "fr") {
+        WORDS_LIST = MOTS;
     } else if (params.get("language").toLocaleLowerCase() == "en") {
-        const WORDS_LIST = WORDS_EXTENDED;
+        WORDS_LIST = WORDS;
     } else {
-        const WORDS_LIST = WORDS_EXTENDED;
+        WORDS_LIST = WORDS; // default to english
     }
-    console.log(language, start_end);
+    console.log(WORDS_LIST.length);
+    console.log(ALPHABET);
 
     function add_letter(ch) {
         document.getElementById("input_letters").value += ch;
