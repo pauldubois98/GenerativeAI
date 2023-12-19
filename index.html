@@ -98,10 +98,13 @@
 </body>
 <script src="words.js"></script>
 <script>
+    const ALPHABET = 'abcdefghijklmnopqrstuvwxyz-*';
     console.log(ALPHABET);
+
     function add_letter(ch) {
         document.getElementById("input_letters").value += ch;
     }
+    
     bars.innerHTML = "";
     for (ch of ALPHABET) {
         bars.innerHTML += `<div class="bar" id="bar_${ch}" onclick="add_letter('${ch}');updateBars();">${ch}</div>`;
@@ -139,6 +142,7 @@
             bar.style.width = `${300 * bars[i] / bars_max}%`;
         }
     }
+    
     updateBars();
     document.getElementById("input_letters").addEventListener("input", () => {
         updateBars(1);
