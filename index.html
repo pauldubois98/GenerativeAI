@@ -104,7 +104,7 @@
         <div id="used_letter">
             <input id="used_letter_range" type="range" name="used_letter" min="0" max="10" value="1"
                 onchange="update_range();" />
-            <input id="used_letter_number" type="number" value="1" />
+            <input id="used_letter_number" type="number" value="1" onchange="update_number();" />
         </div>
         <div>
             <input id="input_letters" type="text" name="input" placeholder="begin word...">
@@ -189,7 +189,9 @@
         updateBars();
     }
     function update_number() {
-        document.getElementById("used_letter_range").value = document.getElementById("used_letter_number").value;
+        var n = Math.max(0, Number(document.getElementById("used_letter_number").value));
+        document.getElementById("used_letter_range").value = n;
+        document.getElementById("used_letter_number").value = n;
         updateBars();
     }
 </script>
