@@ -133,7 +133,10 @@
         bars.innerHTML += `<div class="bar" id="bar_${ch}" onclick="add_letter('${ch}');updateBars();">${ch}</div>`;
     }
 
-    function updateBars(n = 1) {
+    function updateBars(n = undefined) {
+        if (n == undefined) {
+            n = Math.max(0, Number(document.getElementById("used_letter_number").value));
+        }
         var raw_input = document.getElementById("input_letters").value;
         const letters_input = raw_input.normalize("NFD").replace(/[\u0300-\u036f]/g, "").slice(Math.max(raw_input.length - n, 0))
         n_input = Math.min(n, raw_input.length);
