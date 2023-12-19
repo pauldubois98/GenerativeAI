@@ -138,6 +138,15 @@
     else {
         const ALPHABET = 'abcdefghijklmnopqrstuvwxyz-^*';
     }
+    // language
+    if (params.get("language").toLocaleLowerCase() == "fr") {
+        const WORDS_LIST = MOTS_EXTENDED;
+    } else if (params.get("language").toLocaleLowerCase() == "en") {
+        const WORDS_LIST = WORDS_EXTENDED;
+    } else {
+        const WORDS_LIST = WORDS_EXTENDED;
+    }
+    console.log(language, start_end);
 
     function add_letter(ch) {
         document.getElementById("input_letters").value += ch;
