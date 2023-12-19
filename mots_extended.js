@@ -1,4 +1,4 @@
-const WORDS_LIST = [
+const MOTS = [
 	'^aaron*',
 	'^abaisse*',
 	'^abaissement*',

@@ -1,4 +1,4 @@
-const WORDS_LIST = [
+const WORDS = [
 	'^a*',
 	'^a-buzz*',
 	'^a-tiptoe*',
