@@ -26,6 +26,12 @@
             margin-bottom: 0.25em;
         }
 
+        #edit_letters {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
         button {
             font-size: 1.3em;
             margin-left: 10px;
@@ -118,7 +124,7 @@
                 onchange="update_range();" />
             <input id="used_letter_number" type="number" value="1" onchange="update_number();" />
         </div>
-        <div>
+        <div id="edit_letters">
             <input id="input_letters" oninput="updateBars();" type="text" name="input" placeholder="begin word...">
             <button id="add_random_letter_button" onclick="add_random();">
                 <img class="icon" src="icons/random.svg" alt="random letter">
