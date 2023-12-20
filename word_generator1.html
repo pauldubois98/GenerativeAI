@@ -28,12 +28,18 @@
             color: grey;
             font-size: 2.75em;
         }
+
+        #letters_range {
+            width: 300px;
+        }
+
     </style>
 </head>
 
 <body>
     <h1>Word Generator</h1>
     <h2>1</h2>
+    <input id="letters_range" type="range" min="1" max="50" value="8">
     <button onclick="generate()">Genrate</button>
     <h3></h3>
 </body>
