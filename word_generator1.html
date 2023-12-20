@@ -54,11 +54,13 @@
 </body>
 <script>
     const ALPHABET = 'abcdefghijklmnopqrstuvwxyz-';
+    var word = "";
+
     function generate(n = undefined) {
         if (n == undefined) {
             n = Math.max(0, Number(document.getElementById('letters_number').value));
         }
-        var word = "";
+        word = "";
         for (let i = 0; i < n; i++) {
             word += ALPHABET[Math.floor(Math.random() * ALPHABET.length)];
         }
