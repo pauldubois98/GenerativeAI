@@ -48,6 +48,15 @@
 
     function generate(n = undefined) {
         word = "";
+        var r = Math.random() * WORDS_LENGTHS_TOTAL;
+        var k = 0;
+        var word_length = 0;
+        while (k < r) {
+            k += WORDS_LENGTHS[word_length];
+            word_length++;
+        }
+        word_length--;
+
         document.getElementsByTagName('h3')[0].innerText = word;
     }
 
