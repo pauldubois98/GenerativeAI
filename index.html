@@ -247,7 +247,7 @@
                 // bar.style.width = `${1000 * bars[i] / c}%`;
                 bar.style.width = `${300 * bars[i] / bars_max}%`;
                 const percent = document.getElementById(`percent_${ch}`);
-                percent.innerText = Math.round(100 * bars[i] / total) + "%";
+                percent.innerText = Math.round(1000 * bars[i] / total) / 10 + "%";
             }
         }
 
