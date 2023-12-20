@@ -48,7 +48,7 @@
     <h1>Word Generator</h1>
     <h2>1</h2>
     <input id="letters_range" type="range" min="1" max="50" value="8" onchange="range_change()">
-    <input id="letters_number" type="number" value="8">
+    <input id="letters_number" type="number" value="8" onchange="number_change();">
     <button onclick="generate()">Genrate</button>
     <h3></h3>
 </body>
@@ -82,6 +82,12 @@
 
     function range_change() {
         document.getElementById("letters_number").value = document.getElementById("letters_range").value;
+        regenerate();
+    }
+    function number_change() {
+        var n = Math.max(0, Number(document.getElementById("letters_number").value));
+        document.getElementById("letters_range").value = n;
+        document.getElementById("letters_number").value = n;
         regenerate();
     }
 
