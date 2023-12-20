@@ -66,6 +66,19 @@
         }
         document.getElementsByTagName('h3')[0].innerText = word;
     }
+    function regenerate(n = undefined) {
+        if (n == undefined) {
+            n = Math.max(0, Number(document.getElementById('letters_number').value));
+        }
+        if (word.length > n) {
+            word = word.slice(0, n);
+        } else {
+            for (let i = word.length; i < n; i++) {
+                word += ALPHABET[Math.floor(Math.random() * ALPHABET.length)];
+            }
+        }
+        document.getElementsByTagName('h3')[0].innerText = word;
+    }
 
 </script>
 
