@@ -28,7 +28,8 @@ const MOTS_LETTERS_FREQUENCIES = {
 	"-": 187,
 	"^": 0,
 	"*": 0,
-}
+};
+const MOTS_LETTERS_FREQUENCIES_TOTAL = 177523;
 
 const MOTS_LENGTHS = [
 	0,
@@ -61,4 +62,5 @@ const MOTS_LENGTHS = [
 	0,
 	0,
 	0,
-]
+];
+const MOTS_LENGTHS_TOTAL = 22014;
