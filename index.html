@@ -204,16 +204,6 @@
         updateBars();
     }
 
-    async function init() {
-        var all_bars = document.getElementById('bars');
-        all_bars.innerHTML = "";
-        for (ch of ALPHABET) {
-            all_bars.innerHTML += `<div class="bar" id="bar_${ch}" onclick="add_letter('${ch}');updateBars();">${ch} <span id="percent_${ch}"></span></div>`;
-        }
-        await new Promise(r => setTimeout(r, 10));
-        updateBars();
-    }
-
     function updateBars(n = undefined) {
         if (n == undefined) {
             n = Math.max(0, Number(document.getElementById("used_letter_number").value));
@@ -274,6 +264,15 @@
         updateBars();
     }
 
+    async function init() {
+        var all_bars = document.getElementById('bars');
+        all_bars.innerHTML = "";
+        for (ch of ALPHABET) {
+            all_bars.innerHTML += `<div class="bar" id="bar_${ch}" onclick="add_letter('${ch}');updateBars();">${ch} <span id="percent_${ch}"></span></div>`;
+        }
+        await new Promise(r => setTimeout(r, 10));
+        updateBars();
+    }
     init();
 </script>
 
