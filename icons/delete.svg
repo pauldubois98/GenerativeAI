@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="10mm"
+   height="10mm"
+   viewBox="0 0 10 10"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
+   sodipodi:docname="del.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="16.932469"
+     inkscape:cx="21.644805"
+     inkscape:cy="16.624864"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g1112"
+       transform="translate(1.0583333)">
+      <path
+         style="fill:none;fill-opacity:0.992157;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-miterlimit:8;stroke-dasharray:none;stroke-opacity:1;paint-order:markers stroke fill"
+         d="M 3.3,3.3 6.7,6.7"
+         id="path1001"
+         sodipodi:nodetypes="cc" />
+      <path
+         style="fill:none;fill-opacity:0.992157;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-miterlimit:8;stroke-dasharray:none;stroke-opacity:1;paint-order:markers stroke fill"
+         d="M 6.7,3.3 3.3,6.7"
+         id="path1108"
+         sodipodi:nodetypes="cc" />
+    </g>
+    <path
+       id="path3385"
+       style="fill:none;fill-opacity:0.992157;stroke:#000000;stroke-width:1.04846;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:8;paint-order:stroke fill markers"
+       d="m 3.9282603,8.4757713 h 5.547512 V 1.5242283 H 3.9282603 L 0.52420743,4.9920564 Z m 0,-6.951543 h 5.547512 v 6.951543 H 3.9282603 L 0.52420743,5.0079432 Z" />
+  </g>
+</svg>
