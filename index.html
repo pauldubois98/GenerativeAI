@@ -36,6 +36,11 @@
             margin-left: 10px;
         }
 
+        #remove_all_button {
+            font-size: 1.3em;
+            margin-left: 10px;
+        }
+
         #used_letter {
             display: flex;
             flex-direction: row;
@@ -126,7 +131,8 @@
         <div>
             <input id="input_letters" type="text" name="input" placeholder="begin word...">
             <button id="add_random_letter_button" onclick="add_random();">random letter</button>
-            <button id="remove_letter_button" onclick="remove_letters(1);">remove letters</button>
+            <button id="remove_letter_button" onclick="remove_letters(1);">remove letter</button>
+            <button id="remove_all_button" onclick="remove_letters();">remove all</button>
         </div>
         <div id="split">
             <div id="letters">
