@@ -35,6 +35,13 @@
 </body>
 <script>
     const ALPHABET = 'abcdefghijklmnopqrstuvwxyz-';
+    function generate(n = 8) {
+        var word = "";
+        for (let i = 0; i < n; i++) {
+            word += ALPHABET[Math.floor(Math.random() * ALPHABET.length)];
+        }
+        document.getElementsByTagName('h3')[0].innerText = word;
+    }
 
 </script>
 
