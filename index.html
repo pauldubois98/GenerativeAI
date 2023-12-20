@@ -129,7 +129,7 @@
             <input id="used_letter_number" type="number" value="1" onchange="update_number();" />
         </div>
         <div>
-            <input id="input_letters" type="text" name="input" placeholder="begin word...">
+            <input id="input_letters" oninput="updateBars();" type="text" name="input" placeholder="begin word...">
             <button id="add_random_letter_button" onclick="add_random();">random letter</button>
             <button id="remove_letter_button" onclick="remove_letters(1);">remove letter</button>
             <button id="remove_all_button" onclick="remove_letters();">remove all</button>
@@ -262,10 +262,6 @@
         }
 
     }
-
-    document.getElementById("input_letters").addEventListener("input", () => {
-        updateBars();
-    });
 
     function update_range() {
         document.getElementById("used_letter_number").value = document.getElementById("used_letter_range").value;
