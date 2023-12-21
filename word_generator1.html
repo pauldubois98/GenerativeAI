@@ -29,12 +29,19 @@
             font-size: 2.75em;
         }
 
+        #letters_input {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
         #letters_range {
             width: 300px;
         }
 
         #letters_number {
             font-size: 1.3em;
+            width: 50px;
         }
 
         button {
@@ -47,8 +54,10 @@
 <body>
     <h1>Word Generator</h1>
     <h2>I</h2>
-    <input id="letters_range" type="range" min="1" max="20" value="8" oninput="range_change();">
-    <input id="letters_number" type="number" value="8" onchange="number_change();">
+    <div id='letters_input'>
+        <input id="letters_range" type="range" min="1" max="20" value="8" oninput="range_change();">
+        <input id="letters_number" type="number" value="8" onchange="number_change();">
+    </div>
     <button onclick="generate()">Genrate</button>
     <h3>...</h3>
 </body>
