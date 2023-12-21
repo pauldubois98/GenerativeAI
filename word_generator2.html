@@ -52,13 +52,13 @@
     var LENGTHS_TOTAL;
     var LETTERS_FREQUENCIES;
     var LETTERS_FREQUENCIES_TOTAL;
-    if (document.location.search!="" && params.has("language") && params.get("language") == "fr") {
+    if (document.location.search != "" && params.has("language") && params.get("language") == "fr") {
         LENGTHS = MOTS_LENGTHS;
         LENGTHS_TOTAL = MOTS_LENGTHS_TOTAL;
         LETTERS_FREQUENCIES = MOTS_LETTERS_FREQUENCIES;
         LETTERS_FREQUENCIES_TOTAL = MOTS_LETTERS_FREQUENCIES_TOTAL;
         document.getElementsByTagName('h1')[0].innerText = 'Générateur de Mots';
-    } else if (document.location.search!="" && params.get("language") == "en") {
+    } else if (document.location.search != "" && params.get("language") == "en") {
         LENGTHS = WORDS_LENGTHS;
         LENGTHS_TOTAL = WORDS_LENGTHS_TOTAL;
         LETTERS_FREQUENCIES = WORDS_LETTERS_FREQUENCIES;
