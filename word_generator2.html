@@ -48,15 +48,28 @@
 <script>
     let params = new URLSearchParams(document.location.search);
     // language
+    var LENGTHS;
     var LENGTHS_TOTAL;
+    var LETTERS_FREQUENCIES;
+    var LETTERS_FREQUENCIES_TOTAL;
     if (params.has("language") && params.get("language").toLocaleLowerCase() == "fr") {
+        LENGTHS = MOTS_LENGTHS;
         LENGTHS_TOTAL = MOTS_LENGTHS_TOTAL;
+        LETTERS_FREQUENCIES = MOTS_LETTERS_FREQUENCIES;
+        LETTERS_FREQUENCIES_TOTAL = MOTS_LETTERS_FREQUENCIES_TOTAL;
         document.getElementsByTagName('h1')[0].innerText = 'Générateur de Mots';
     } else if (params.get("language").toLocaleLowerCase() == "en") {
+        LENGTHS = WORDS_LENGTHS;
         LENGTHS_TOTAL = WORDS_LENGTHS_TOTAL;
+        LETTERS_FREQUENCIES = WORDS_LETTERS_FREQUENCIES;
+        LETTERS_FREQUENCIES_TOTAL = WORDS_LETTERS_FREQUENCIES_TOTAL;
         document.getElementsByTagName('h1')[0].innerText = 'Word Generator';
     } else {
-        WORDS_LIST = WORDS; // default to english
+        // default to english
+        LENGTHS = WORDS_LENGTHS;
+        LENGTHS_TOTAL = WORDS_LENGTHS_TOTAL;
+        LETTERS_FREQUENCIES = WORDS_LETTERS_FREQUENCIES;
+        LETTERS_FREQUENCIES_TOTAL = WORDS_LETTERS_FREQUENCIES_TOTAL;
     }
 
     const ALPHABET = 'abcdefghijklmnopqrstuvwxyz-';
