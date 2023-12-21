@@ -53,6 +53,14 @@
     <h3>...</h3>
 </body>
 <script>
+    let params = new URLSearchParams(document.location.search);
+    // language
+    if (document.location.search != "" && params.has("language") && params.get("language") == "fr") {
+        document.getElementsByTagName('h1')[0].innerText = 'Générateur de Mots';
+    } else if (document.location.search != "" && params.get("language") == "en") {
+        document.getElementsByTagName('h1')[0].innerText = 'Word Generator';
+    } else { }
+
     const ALPHABET = 'abcdefghijklmnopqrstuvwxyz-';
     var word = "";
 
