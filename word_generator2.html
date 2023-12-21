@@ -50,8 +50,10 @@
     var LENGTHS_TOTAL;
     if (params.has("language") && params.get("language").toLocaleLowerCase() == "fr") {
         LENGTHS_TOTAL = MOTS_LENGTHS_TOTAL;
+        document.getElementsByTagName('h1')[0].innerText = 'Générateur de Mots';
     } else if (params.get("language").toLocaleLowerCase() == "en") {
         LENGTHS_TOTAL = WORDS_LENGTHS_TOTAL;
+        document.getElementsByTagName('h1')[0].innerText = 'Word Generator';
     } else {
         WORDS_LIST = WORDS; // default to english
     }
