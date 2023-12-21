@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Word Generator 3</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            font-weight: bold;
+            font-size: 2.5em;
+            margin: 0.2em;
+        }
+
+        h2 {
+            color: #444;
+            font-weight: bold;
+            font-size: 3em;
+            margin-top: 0em;
+        }
+
+        h3 {
+            color: grey;
+            font-size: 2.75em;
+        }
+
+        #letters_input {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #letters_range {
+            width: 300px;
+        }
+
+        #letters_number {
+            font-size: 1.3em;
+            width: 50px;
+            margin-top: 1em;
+        }
+
+        button {
+            margin: 1em;
+            font-size: 1.6em;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Word Generator</h1>
+    <h2>III</h2>
+    <div id='letters_input'>
+        <input id="letters_range" type="range" min="1" max="20" value="8" oninput="range_change();">
+        <input id="letters_number" type="number" value="8" onchange="number_change();">
+    </div>
+    <button onclick="generate()">Genrate</button>
+    <h3>...</h3>
+</body>
+<script>
+    let params = new URLSearchParams(document.location.search);
+    // language
+    if (document.location.search != "" && params.has("language") && params.get("language") == "fr") {
+        document.getElementsByTagName('h1')[0].innerText = 'Générateur de Mots';
+    } else if (document.location.search != "" && params.get("language") == "en") {
+        document.getElementsByTagName('h1')[0].innerText = 'Word Generator';
+    } else { }
+
+    const ALPHABET = 'abcdefghijklmnopqrstuvwxyz-';
+    var word = "";
+
+    function generate(n = undefined) {
+        if (n == undefined) {
+            n = Math.max(0, Number(document.getElementById('letters_number').value));
+        }
+        word = "";
+        for (let i = 0; i < n; i++) {
+            word += ALPHABET[Math.floor(Math.random() * ALPHABET.length)];
+        }
+        document.getElementsByTagName('h3')[0].innerText = word;
+    }
+    function regenerate(n = undefined) {
+        if (n == undefined) {
+            n = Math.max(0, Number(document.getElementById('letters_number').value));
+        }
+        if (word.length > n) {
+            word = word.slice(0, n);
+        } else {
+            for (let i = word.length; i < n; i++) {
+                word += ALPHABET[Math.floor(Math.random() * ALPHABET.length)];
+            }
+        }
+        document.getElementsByTagName('h3')[0].innerText = word;
+    }
+
+    function range_change() {
+        document.getElementById("letters_number").value = document.getElementById("letters_range").value;
+        regenerate();
+    }
+    function number_change() {
+        var n = Math.max(0, Number(document.getElementById("letters_number").value));
+        document.getElementById("letters_range").value = n;
+        document.getElementById("letters_number").value = n;
+        regenerate();
+    }
+
+    generate();
+
+</script>
+
+</html>
