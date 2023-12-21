@@ -123,14 +123,13 @@
                     s += bars[k] / total;
                     k++;
                 }
-                console.log(k, ch);
                 ch = ALPHABET[k - 1];
             }
 
             // add the letter to the word
             word += ch;
         }
-        document.getElementsByTagName('h3')[0].innerText = word;
+        document.getElementsByTagName('h3')[0].innerText = word.slice(1, word.length - 1);
     }
     function regenerate(n = undefined) {
         if (n == undefined) {
