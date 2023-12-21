@@ -57,7 +57,19 @@
             word_length++;
         }
         word_length--;
-
+        word_length--;
+        for (let i = 0; i < word_length; i++) {
+            var r = Math.random() * WORDS_LETTERS_FREQUENCIES_TOTAL;
+            var k = 0;
+            var j = 0;
+            while (k < r) {
+                ch = ALPHABET[j];
+                k += WORDS_LETTERS_FREQUENCIES[ch];
+                j++;
+            }
+            word += ch;
+        }
+        console.log(k);
         document.getElementsByTagName('h3')[0].innerText = word;
     }
 
