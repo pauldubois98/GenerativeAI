@@ -45,6 +45,17 @@
 </body>
 <script src="words_stats.js"></script>
 <script>
+    let params = new URLSearchParams(document.location.search);
+    // language
+    var LENGTHS_TOTAL;
+    if (params.has("language") && params.get("language").toLocaleLowerCase() == "fr") {
+        LENGTHS_TOTAL = MOTS_LENGTHS_TOTAL;
+    } else if (params.get("language").toLocaleLowerCase() == "en") {
+        LENGTHS_TOTAL = WORDS_LENGTHS_TOTAL;
+    } else {
+        WORDS_LIST = WORDS; // default to english
+    }
+
     const ALPHABET = 'abcdefghijklmnopqrstuvwxyz-';
     var word = "";
 
