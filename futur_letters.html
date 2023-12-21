@@ -169,10 +169,10 @@
     }
     // language
     var WORDS_LIST;
-    if (params.has("language") && params.get("language").toLocaleLowerCase() == "fr") {
+    if (document.location.search!="" && params.has("language") && params.get("language") == "fr") {
         WORDS_LIST = MOTS;
         document.getElementsByTagName('h1')[0].innerText = 'Lettres Futures';
-    } else if (params.get("language").toLocaleLowerCase() == "en") {
+    } else if (document.location.search!="" && params.has("language") && params.get("language") == "en") {
         WORDS_LIST = WORDS;
         document.getElementsByTagName('h1')[0].innerText = 'Futur Letters';
     } else {
