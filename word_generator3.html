@@ -85,9 +85,50 @@
         if (n == undefined) {
             n = Math.max(0, Number(document.getElementById('letters_number').value));
         }
-        word = "";
-        for (let i = 0; i < n; i++) {
-            word += ALPHABET[Math.floor(Math.random() * ALPHABET.length)];
+        word = "^";
+        var ch = "^";
+        var k = 0;
+        while (ch != "*" && k < 30) {
+            k++;
+            // select the last n letters
+            n_input = Math.min(n, word.length);
+            const letters_input = word.slice(Math.max(word.length - n, 0))
+
+            // compute the probability of each letter
+            var bars = [];
+            for (let i = 0; i < ALPHABET.length; i++) {
+                bars.push(0);
+            }
+            total = 0;
+            for (let k = 0; k < WORDS_LIST.length; k++) {
+                const word = WORDS_LIST[k];
+                var i = 0;
+                while (i + n_input < word.length) {
+                    if (word.slice(i, i + n_input) == letters_input) {
+                        bars[ALPHABET.indexOf(word[i + n_input])]++;
+                        total++;
+                    }
+                    i++;
+                }
+            }
+
+            // select a letter
+            if (total == 0) {
+                ch = ALPHABET[Math.floor(Math.random() * ALPHABET.length)];
+            } else {
+                var r = Math.random();
+                var k = 0;
+                var s = 0;
+                while (r > s) {
+                    s += bars[k] / total;
+                    k++;
+                }
+                console.log(k, ch);
+                ch = ALPHABET[k - 1];
+            }
+
+            // add the letter to the word
+            word += ch;
         }
         document.getElementsByTagName('h3')[0].innerText = word;
     }
