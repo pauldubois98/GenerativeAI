@@ -67,11 +67,16 @@
 <script>
     let params = new URLSearchParams(document.location.search);
     // language
+    var WORDS_LIST;
     if (document.location.search != "" && params.has("language") && params.get("language") == "fr") {
+        WORDS_LIST = MOTS;
         document.getElementsByTagName('h1')[0].innerText = 'Générateur de Mots';
     } else if (document.location.search != "" && params.get("language") == "en") {
+        WORDS_LIST = WORDS;
         document.getElementsByTagName('h1')[0].innerText = 'Word Generator';
-    } else { }
+    } else {
+        WORDS_LIST = WORDS;
+    }
 
     const ALPHABET = 'abcdefghijklmnopqrstuvwxyz-';
     var word = "";
