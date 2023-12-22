@@ -125,6 +125,16 @@
             neuron.style.fill = '#ff0000';
         }
     }
+    function stringToTensor(s) {
+        var out_indices = [];
+        for (let i = 0; i < s.length; i++) {
+            const ch = s[i];
+            out_indices.push(ALPHABET.indexOf(ch));
+        }
+        const out_indices_tensor = tf.tensor1d(out_indices, 'int32');
+        const out_tensor = tf.oneHot(out_indices_tensor, ALPHABET.length).cast('float32');
+        return out_tensor;
+    }
 
     // Create a simple model.
     const model = tf.sequential();
