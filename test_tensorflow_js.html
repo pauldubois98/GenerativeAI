@@ -143,11 +143,31 @@
         const neuron = document.getElementById(`${predicted_ch}0_circle`);
         neuron.style.fill = '#0f0';
     }
+    function connectMiddleNeurons() {
+        const middle_output = predict_middle();
+        var positions = [];
+        for (let i = 0; i < middle_output.length; i++) {
+            const neuron = document.getElementById(`neuron${i}`);
+            if (middle_output[i] > 0.5) {
+                positions.push([neuron.cx.animVal.value, neuron.cy.animVal.value, middle_output[i]]);
+            }
+        }
+        var out = '';
+        for (let i = 0; i < positions.length; i++) {
+            const [x1, y1, v1] = positions[i];
+            for (let j = i + 1; j < positions.length; j++) {
+                const [x2, y2, v2] = positions[j];
+                out += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" style="stroke:rgb(100,100,100);stroke-width:${v1 + v2}" />`;
+            }
+        }
+        document.getElementById("middle_connexions").innerHTML = out;
+    }
     function updateNeurons() {
         deactivateNeurons(); // reset all neurons
         activateInputNeurons(); // activate input neurons
         activateMiddleNeurons(); // activate middle neurons
         activateOutputNeurons(); // activate output neurons
+        connectMiddleNeurons(); // connect middle neurons
     }
 
     function stringToTensor(s) {
