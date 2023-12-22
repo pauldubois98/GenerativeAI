@@ -65,15 +65,18 @@
         }
         return out;
     }
-    function halton_neurons(y1, y2, n, name = 'neuron') {
+    function halton_neurons(y1, y2, n) {
         network_svg = document.getElementById("network");
+        var out = `<g id="halton_neurons">`;
         const dy = y2 - y1;
         const dx = network_svg.width.animVal.value;
         const xs = halton_sequence(n, 2);
         const ys = halton_sequence(n, 3);
         for (var i = 0; i < n; i++) {
-            network_svg.innerHTML += normal_neuron(xs[i] * dx, y1 + ys[i] * dy, `${name}${i}`);
+            out += normal_neuron(xs[i] * dx, y1 + ys[i] * dy, `neuron${i}`);
         }
+        out += '</g>';
+        network_svg.innerHTML += out;
     }
     function draw_network(n_in = 3, n = 30) {
         // empty network drawing
@@ -86,7 +89,7 @@
             alphabet_line(y - i * dy);
         }
         // hidden layer
-        halton_neurons(y + dy, 580 - dy, n, name = 'neuron')
+        halton_neurons(y + dy, 580 - dy, n)
         // alphabet output
         alphabet_line(580);
     }
