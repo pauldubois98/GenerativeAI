@@ -127,6 +127,11 @@
             neuron.style.fill = '#ff0000';
         }
     }
+    function activateOutputNeurons() {
+        const predicted_ch = predict();
+        const neuron = document.getElementById(`${predicted_ch}0_circle`);
+        neuron.style.fill = '#00ff00';
+    }
     function updateNeurons() {
         deactivateNeurons(); // reset all neurons
         activateNeurons(); // activate input neurons
