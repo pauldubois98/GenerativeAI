@@ -222,6 +222,7 @@
     function train(k = 100) {
         create_training_data();
         model.fit(train_xs, train_ys, { epochs: k }).then(() => {
+            model_middle.layers[0].setWeights(model.layers[0].getWeights());
             console.log(k, 'epochs done');
         });
     }
