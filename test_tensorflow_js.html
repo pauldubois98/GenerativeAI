@@ -41,6 +41,10 @@
             x += dx;
         }
     }
+    function normal_neuron(x, y, name) {
+        const out = `<circle id="${name}_circle" cx="${x}" cy="${y}" r="7" style="fill:#000000;fill-opacity:1;" />`;
+        return out;
+    }
     function draw_network(n = 3) {
         // empty network drawing
         network_svg = document.getElementById("network");
