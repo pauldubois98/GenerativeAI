@@ -30,6 +30,9 @@
     </div>
 </body>
 <script>
+    const ALPHABET = 'abcdefghijklmnopqrstuvwxyz-';
+
+
     // Create a simple model.
     const model = tf.sequential();
     model.add(tf.layers.dense({ units: 1, inputShape: [1] }));
