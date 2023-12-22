@@ -38,6 +38,15 @@
         out += `<text id="${letter}${suffix}" x="${x}" y="${y + 4}" style="font: size 14px;font-family:'Arial Rounded MT Bold';text-anchor:middle;fill:#000000;fill-opacity:1">${letter}</text>`;
         return out;
     }
+    function alphabet_line(y) {
+        network_svg = document.getElementById("network");
+        const dx = network_svg.width.animVal.value / ALPHABET.length;
+        var x = dx / 2;
+        for (const letter of ALPHABET) {
+            network_svg.innerHTML += letter_neuron(x, y, letter, '1');
+            x += dx;
+        }
+    }
 
     // Create a simple model.
     const model = tf.sequential();
