@@ -1,1 +1,1 @@
-const WORDS = ["abcde", "defghijklm"];
+const WORDS = ["abcde", "wxyz"];
