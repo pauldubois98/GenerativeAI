@@ -53,13 +53,13 @@
        r="7" />
     <text
        xml:space="preserve"
-       style="font-size:15.2225px;font-family:'Arial Rounded MT Bold';-inkscape-font-specification:'Arial Rounded MT Bold, ';text-align:center;text-anchor:middle;fill:#000000;fill-opacity:0.992157;stroke-width:2;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:8;paint-order:markers fill stroke;stroke-dasharray:none"
+       style="font-size:15.2225px;font-family:Arial;-inkscape-font-specification:'Arial Bold';text-align:center;text-anchor:middle;fill:#000000;fill-opacity:0.992157;stroke-width:2;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:8;paint-order:markers fill stroke;stroke-dasharray:none;font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal"
        x="33.891655"
        y="38.596851"
        id="text612"><tspan
          sodipodi:role="line"
          id="tspan610"
-         style="stroke-width:2;stroke-dasharray:none;paint-order:markers fill stroke"
+         style="stroke-width:2;stroke-dasharray:none;paint-order:markers fill stroke;-inkscape-font-specification:'Arial Bold';font-family:Arial;font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal"
          x="33.891655"
          y="38.596851">a</tspan></text>
   </g>
