@@ -47,6 +47,13 @@
             x += dx;
         }
     }
+    function draw_network(n = 3) {
+        for (var i = 0; i < n; i++) {
+            alphabet_line(20 + i * 30);
+        }
+        alphabet_line(570);
+    }
+    draw_network();
 
     // Create a simple model.
     const model = tf.sequential();
