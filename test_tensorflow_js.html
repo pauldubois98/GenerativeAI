@@ -162,7 +162,7 @@
         return output_string;
     }
     function predict_middle() {
-        const raw_input = document.getElementById("input_letters").value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        const raw_input = ' '.repeat(N_LETTERS) + document.getElementById("input_letters").value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
         const n_input = Math.min(N_LETTERS, raw_input.length);
         const letters_input = raw_input.slice(-n_input);
         const input_tensor = stringToTensor(letters_input).reshape([1, N_LETTERS * ALPHABET.length]);
