@@ -184,6 +184,9 @@
     reset_model();
 
     function create_training_data() {
+        if (train_xs != undefined) {
+            return [train_xs, train_ys];
+        }
         var xs = [];
         var ys = [];
         for (let k = 0; k < WORDS.length; k++) {
