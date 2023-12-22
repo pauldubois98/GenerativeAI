@@ -105,10 +105,6 @@
     }
     draw_network();
 
-    function updateNeurons() {
-        deactivateNeurons(); // reset all neurons
-        activateNeurons(); // activate input neurons
-    }
     function deactivateNeurons() {
         for (const letter of ALPHABET) {
             for (let i = 0; i <= N_LETTERS; i++) {
@@ -128,6 +124,12 @@
             neuron.style.fill = '#ff0000';
         }
     }
+    function updateNeurons() {
+        deactivateNeurons(); // reset all neurons
+        activateNeurons(); // activate input neurons
+    }
+    updateNeurons();
+
     function stringToTensor(s) {
         var out_indices = [];
         for (let i = 0; i < s.length; i++) {
