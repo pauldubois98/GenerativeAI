@@ -62,6 +62,16 @@
         }
         return out;
     }
+    function halton_neurons(y1, y2, n, name = 'neuron') {
+        network_svg = document.getElementById("network");
+        const dy = y2 - y1;
+        const dx = network_svg.width.animVal.value;
+        const xs = halton_sequence(n, 2);
+        const ys = halton_sequence(n, 3);
+        for (var i = 0; i < n; i++) {
+            network_svg.innerHTML += normal_neuron(xs[i] * dx, y1 + ys[i] * dy, `${name}${i}`);
+        }
+    }
     function draw_network(n = 3) {
         // empty network drawing
         network_svg = document.getElementById("network");
