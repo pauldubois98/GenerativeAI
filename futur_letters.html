@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Futur Letters</title>
+    <title>Next Letters</title>
     <style>
         body {
             background-color: #f1f1f1;
@@ -125,7 +125,7 @@
 </head>
 
 <body>
-    <h1>Futur Letters</h1>
+    <h1>Next Letters</h1>
     <div>
         <div id="used_letter">
             <input id="used_letter_range" type="range" name="used_letter" min="0" max="10" value="1"
@@ -171,10 +171,10 @@
     var WORDS_LIST;
     if (document.location.search != "" && params.has("language") && params.get("language") == "fr") {
         WORDS_LIST = MOTS;
-        document.getElementsByTagName('h1')[0].innerText = 'Lettres Futures';
+        document.getElementsByTagName('h1')[0].innerText = 'Lettres Suivantes';
     } else if (document.location.search != "" && params.has("language") && params.get("language") == "en") {
         WORDS_LIST = WORDS;
-        document.getElementsByTagName('h1')[0].innerText = 'Futur Letters';
+        document.getElementsByTagName('h1')[0].innerText = 'Next Letters';
     } else {
         WORDS_LIST = WORDS; // default to english
     }
