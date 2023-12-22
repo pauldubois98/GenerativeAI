@@ -103,7 +103,16 @@
     draw_network();
 
     function updateNeurons() {
+        deactivateNeurons(); // reset all neurons
         activateNeurons(); // activate input neurons
+    }
+    function deactivateNeurons() {
+        for (const letter of ALPHABET) {
+            for (let i = 0; i <= N_LETTERS; i++) {
+                const neuron = document.getElementById(`${letter}${i}_circle`);
+                neuron.style.fill = 'none';
+            }
+        }
     }
     function activateNeurons() {
         const raw_input = document.getElementById("input_letters").value;
