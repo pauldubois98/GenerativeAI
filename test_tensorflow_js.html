@@ -94,7 +94,7 @@
     function draw_network() {
         // empty network drawing
         network_svg = document.getElementById("network");
-        network_svg.innerHTML = '<g id="primary_connexions"></g><g id="middle_connexions"></g>';
+        network_svg.innerHTML = '<g id="primary_connexions"></g><g id="middle_connexions"></g><g id="end_connexions"></g>';
         // alphabet input
         const dy = Math.min(200 / N_LETTERS, 30);
         const y = (N_LETTERS + 0.5) * dy;
@@ -191,6 +191,27 @@
         }
         document.getElementById("middle_connexions").innerHTML = out;
     }
+    function connectLastNeuron() {
+        const middle_output = predict_middle();
+        var positions = [];
+        for (let i = 0; i < middle_output.length; i++) {
+            const neuron = document.getElementById(`neuron${i}`);
+            if (middle_output[i] > 0.5) {
+                positions.push([neuron.cx.animVal.value, neuron.cy.animVal.value, middle_output[i]]);
+            }
+        }
+        const predicted_ch = predict();
+        var out = '';
+        const neuron = document.getElementById(`${predicted_ch}0_circle`);
+        const x1 = neuron.cx.animVal.value;
+        const y1 = neuron.cy.animVal.value;
+        const v1 = 1;
+        for (let j = 0; j < positions.length; j++) {
+            const [x2, y2, v2] = positions[j];
+            out += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" style="stroke:rgb(100,100,100);stroke-width:${v1 + v2}" />`;
+        }
+        document.getElementById("end_connexions").innerHTML = out;
+    }
     function updateNeurons() {
         deactivateNeurons(); // reset all neurons
 
@@ -200,6 +221,7 @@
 
         connectPrimaryNeurons(); // connect primary neurons
         connectMiddleNeurons(); // connect middle neurons
+        connectLastNeuron(); // connect last neuron
     }
 
     function stringToTensor(s) {
