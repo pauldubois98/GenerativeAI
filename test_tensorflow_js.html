@@ -125,7 +125,7 @@
             const ch = letters_input[i];
             const neuron = document.getElementById(`${ch}${n_input - i}_circle`);
             if (neuron != null) {
-                neuron.style.fill = '#ff0000';
+                neuron.style.fill = '#f00';
             }
         }
     }
@@ -141,7 +141,7 @@
     function activateOutputNeurons() {
         const predicted_ch = predict();
         const neuron = document.getElementById(`${predicted_ch}0_circle`);
-        neuron.style.fill = '#00ff00';
+        neuron.style.fill = '#0f0';
     }
     function updateNeurons() {
         deactivateNeurons(); // reset all neurons
