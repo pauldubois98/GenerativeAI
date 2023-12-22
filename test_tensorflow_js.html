@@ -174,7 +174,7 @@
         // add new layers
         model.add(tf.layers.dense({ units: N_NEURONS, inputShape: [N_LETTERS * ALPHABET.length], activation: 'relu' }));
         model.add(tf.layers.dense({ units: ALPHABET.length }));
-        model.compile({ loss: 'meanSquaredError', optimizer: 'sgd' });
+        model.compile({ loss: 'meanSquaredError', optimizer: tf.train.sgd(0.0001) });
         // middle layer model
         model_middle.layers.forEach(l => l.dispose());
         model_middle.add(model.layers[0]);
