@@ -103,6 +103,9 @@
     draw_network();
 
     function updateNeurons() {
+        activateNeurons(); // activate input neurons
+    }
+    function activateNeurons() {
         const raw_input = document.getElementById("input_letters").value;
         const letters_input = raw_input.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
         const n_input = Math.min(3, raw_input.length);
