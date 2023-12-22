@@ -104,16 +104,11 @@
 
     function updateNeurons() {
         const raw_input = document.getElementById("input_letters").value;
-        const letters_input = raw_input.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        const letters_input = raw_input.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
         const n_input = Math.min(3, raw_input.length);
         const network_svg = document.getElementById("network");
-        console.log(raw_input);
-        console.log(letters_input);
-        console.log(n_input);
         for (let i = 0; i < n_input; i++) {
             const ch = letters_input[i];
-            console.log(ch);
-            console.log(`${ch}${n_input - i}_circle`);
             const neuron = document.getElementById(`${ch}${n_input - i}_circle`);
             neuron.style.fill = '#ff0000';
         }
