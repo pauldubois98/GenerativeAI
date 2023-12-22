@@ -34,12 +34,15 @@
     }
     function alphabet_line(y, suffix = '') {
         network_svg = document.getElementById("network");
+        var out = `<g id="alphabet_line_${suffix}">`;
         const dx = network_svg.width.animVal.value / ALPHABET.length;
         var x = dx / 2;
         for (const letter of ALPHABET) {
-            network_svg.innerHTML += letter_neuron(x, y, letter, suffix);
+            out += letter_neuron(x, y, letter, suffix);
             x += dx;
         }
+        out += '</g>';
+        network_svg.innerHTML += out;
     }
     function normal_neuron(x, y, name) {
         const out = `<circle id="${name}" cx="${x}" cy="${y}" r="8" style="fill:#000000;fill-opacity:1;" />`;
