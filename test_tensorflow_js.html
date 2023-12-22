@@ -202,8 +202,8 @@
         const xs_tensor_indices = tf.tensor2d(xs, [xs.length, N_LETTERS], 'int32');
         const xs_tensor = tf.oneHot(xs_tensor_indices, ALPHABET.length).cast('float32').reshape([xs.length, N_LETTERS * ALPHABET.length]);
         const ys_tensor = tf.oneHot(tf.tensor1d(ys, 'int32'), ALPHABET.length).cast('float32');
-        var train_xs = xs_tensor;
-        var train_ys = ys_tensor;
+        train_xs = xs_tensor;
+        train_ys = ys_tensor;
         return [xs_tensor, ys_tensor];
     }
 
