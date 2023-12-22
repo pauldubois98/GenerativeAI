@@ -28,6 +28,7 @@
         <svg id="network" width="450" height="600"></svg>
     </div>
 </body>
+<script src="words0.js"></script>
 <script>
     const ALPHABET = 'abcdefghijklmnopqrstuvwxyz-';
     var N_LETTERS = 3;
@@ -134,6 +135,15 @@
         const out_indices_tensor = tf.tensor1d(out_indices, 'int32');
         const out_tensor = tf.oneHot(out_indices_tensor, ALPHABET.length).cast('float32');
         return out_tensor;
+    }
+    function tensorToString(t) {
+        const indices = t.argMax(-1).dataSync();
+        var out = '';
+        for (let i = 0; i < indices.length; i++) {
+            const index = indices[i];
+            out += ALPHABET[index];
+        }
+        return out;
     }
 
     // Create a simple model.
