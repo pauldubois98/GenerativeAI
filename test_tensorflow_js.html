@@ -28,7 +28,7 @@
 
     function letter_neuron(x, y, letter, suffix) {
         var out = '';
-        out += `<circle id="${letter}${suffix}_circle" cx="${x}" cy="${y}" r="7" style="fill:none;stroke:#000000;stroke-width:1.5;paint-order:stroke fill markers" />`;
+        out += `<circle id="${letter}${suffix}_circle" cx="${x}" cy="${y}" r="7" style="fill:none;stroke:#000000;stroke-width:1;paint-order:stroke fill markers" />`;
         out += `<text id="${letter}${suffix}" x="${x}" y="${y + 4}" style="font: size 14px;font-family:'Arial Rounded MT Bold';text-anchor:middle;fill:#000000;fill-opacity:1">${letter}</text>`;
         return out;
     }
@@ -46,13 +46,14 @@
         network_svg = document.getElementById("network");
         network_svg.innerHTML = '';
         // alphabet input
+        const dy = Math.min(200 / n, 30);
         for (var i = 0; i < n; i++) {
-            alphabet_line(20 + i * 30);
+            alphabet_line(190 - i * dy);
         }
         // hidden layer
 
         // alphabet output
-        alphabet_line(570);
+        alphabet_line(580);
     }
     draw_network();
 
