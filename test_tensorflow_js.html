@@ -326,15 +326,27 @@
     }
     onload = () => {
         updateNeurons();
-        // wait
         setTimeout(() => {
-            console.log(test());
+            console.log('Epoch', 0, test() * 100, '%');
         }, 100);
         setTimeout(() => {
-            train(10);
-        }, 1000);
+            recursive_train();
+        }, 150);
 
 
+    }
+
+    var EPOCH = 0;
+    function recursive_train(k = 10) {
+        EPOCH++;
+        model.fit(train_xs, train_ys, { epochs: 1 }).then(() => {
+            model_middle.layers[0].setWeights(model.layers[0].getWeights());
+            console.log('Epoch', EPOCH, test() * 100, '%');
+            updateNeurons();
+            if (EPOCH < k) {
+                recursive_train(k);
+            }
+        });
     }
     // Generate some synthetic data for training. (y = 2x - 1)
     // const xs = tf.tensor2d([-1, 0, 1, 2, 3, 4], [6, 1]);
