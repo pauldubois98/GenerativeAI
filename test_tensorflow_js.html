@@ -115,9 +115,9 @@
         }
     }
     function activateNeurons() {
-        const raw_input = document.getElementById("input_letters").value;
-        const letters_input = raw_input.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-        const n_input = Math.min(3, raw_input.length);
+        const raw_input = document.getElementById("input_letters").value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        const n_input = Math.min(N_LETTERS, raw_input.length);
+        const letters_input = raw_input.slice(-n_input);
         const network_svg = document.getElementById("network");
         for (let i = 0; i < n_input; i++) {
             const ch = letters_input[i];
