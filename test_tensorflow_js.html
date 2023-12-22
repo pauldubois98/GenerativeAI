@@ -84,14 +84,14 @@
         network_svg.innerHTML = '';
         // alphabet input
         const dy = Math.min(200 / n_in, 30);
-        const y = (n_in - 0.5) * dy;
-        for (var i = 0; i < n_in; i++) {
-            alphabet_line(y - i * dy);
+        const y = (n_in + 0.5) * dy;
+        for (var i = 1; i < n_in + 1; i++) {
+            alphabet_line(y - i * dy, i);
         }
         // hidden layer
         halton_neurons(y + dy, 580 - dy, n)
         // alphabet output
-        alphabet_line(580);
+        alphabet_line(580, '0');
     }
     draw_network();
 
