@@ -28,6 +28,7 @@
     <div>
         <svg id="network" width="450" height="600"></svg>
     </div>
+    <div id="logs"></div>
 </body>
 <script src="tfjs.js"></script>
 <script src="words.js"></script>
@@ -328,7 +329,9 @@
     onload = () => {
         updateNeurons();
         setTimeout(() => {
-            console.log('Epoch', 0, test() * 100, '%');
+            const t = test();
+            console.log('Epoch', 0, t * 100, '%');
+            document.getElementById("logs").innerText = 'Epoch 0: ' + Math.round(t * 10000) / 100 + '% \n';
         }, 100);
         setTimeout(() => {
             recursive_train();
@@ -342,7 +345,9 @@
         EPOCH++;
         model.fit(train_xs, train_ys, { epochs: 1 }).then(() => {
             model_middle.layers[0].setWeights(model.layers[0].getWeights());
-            console.log('Epoch', EPOCH, test() * 100, '%');
+            const t = test();
+            console.log('Epoch', EPOCH, t * 100, '%');
+            document.getElementById("logs").innerText += 'Epoch '+ EPOCH +': ' + Math.round(t * 10000) / 100 + '% \n';
             updateNeurons();
             if (EPOCH < k) {
                 recursive_train(k);
