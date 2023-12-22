@@ -129,6 +129,15 @@
             }
         }
     }
+    function activateMiddleNeurons() {
+        const middle_output = predict_middle();
+        for (let i = 0; i < middle_output.length; i++) {
+            const neuron = document.getElementById(`neuron${i}`);
+            const b = Math.min(255, Math.max(0, Math.floor(255 * middle_output[i])));
+            neuron.style.fill = `rgb(0,0,${b})`;
+        }
+
+    }
     function activateOutputNeurons() {
         const predicted_ch = predict();
         const neuron = document.getElementById(`${predicted_ch}0_circle`);
@@ -137,6 +146,7 @@
     function updateNeurons() {
         deactivateNeurons(); // reset all neurons
         activateInputNeurons(); // activate input neurons
+        activateMiddleNeurons(); // activate middle neurons
         activateOutputNeurons(); // activate output neurons
     }
 
