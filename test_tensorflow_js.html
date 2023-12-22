@@ -211,10 +211,10 @@
         train_ys = ys_tensor;
         return [xs_tensor, ys_tensor];
     }
-    function train() {
+    function train(k = 100) {
         create_training_data();
-        model.fit(train_xs, train_ys, { epochs: 250 }).then(() => {
-            console.log('training done');
+        model.fit(train_xs, train_ys, { epochs: k }).then(() => {
+            console.log(k, 'epochs done');
         });
     }
     // train();
