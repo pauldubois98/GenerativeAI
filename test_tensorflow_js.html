@@ -72,17 +72,18 @@
             network_svg.innerHTML += normal_neuron(xs[i] * dx, y1 + ys[i] * dy, `${name}${i}`);
         }
     }
-    function draw_network(n = 3) {
+    function draw_network(n_in = 3, n = 30) {
         // empty network drawing
         network_svg = document.getElementById("network");
         network_svg.innerHTML = '';
         // alphabet input
-        const dy = Math.min(200 / n, 30);
-        for (var i = 0; i < n; i++) {
-            alphabet_line(190 - i * dy);
+        const dy = Math.min(200 / n_in, 30);
+        const y = (n_in - 0.5) * dy;
+        for (var i = 0; i < n_in; i++) {
+            alphabet_line(y - i * dy);
         }
         // hidden layer
-
+        halton_neurons(y + dy, 580 - dy, n, name = 'neuron')
         // alphabet output
         alphabet_line(580);
     }
