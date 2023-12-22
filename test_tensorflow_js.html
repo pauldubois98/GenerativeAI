@@ -45,6 +45,23 @@
         const out = `<circle id="${name}_circle" cx="${x}" cy="${y}" r="7" style="fill:#000000;fill-opacity:1;" />`;
         return out;
     }
+    function halton_sequence(n, b) {
+        var out = [];
+        var i = 1;
+        while (out.length < n) {
+            var x = 0;
+            var f = 1;
+            var j = i;
+            while (j > 0) {
+                f = f / b;
+                x = x + f * (j % b);
+                j = Math.floor(j / b);
+            }
+            out.push(x);
+            i++;
+        }
+        return out;
+    }
     function draw_network(n = 3) {
         // empty network drawing
         network_svg = document.getElementById("network");
