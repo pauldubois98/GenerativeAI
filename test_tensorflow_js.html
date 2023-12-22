@@ -116,7 +116,7 @@
             }
         }
     }
-    function activateNeurons() {
+    function activateInputNeurons() {
         const raw_input = document.getElementById("input_letters").value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
         const n_input = Math.min(N_LETTERS, raw_input.length);
         const letters_input = raw_input.slice(-n_input);
@@ -124,7 +124,9 @@
         for (let i = 0; i < n_input; i++) {
             const ch = letters_input[i];
             const neuron = document.getElementById(`${ch}${n_input - i}_circle`);
-            neuron.style.fill = '#ff0000';
+            if (neuron != null) {
+                neuron.style.fill = '#ff0000';
+            }
         }
     }
     function activateOutputNeurons() {
@@ -134,7 +136,8 @@
     }
     function updateNeurons() {
         deactivateNeurons(); // reset all neurons
-        activateNeurons(); // activate input neurons
+        activateInputNeurons(); // activate input neurons
+        activateOutputNeurons(); // activate output neurons
     }
     updateNeurons();
 
