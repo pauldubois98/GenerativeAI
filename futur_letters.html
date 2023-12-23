@@ -5,6 +5,20 @@
     <meta charset="UTF-8">
     <title>Futur Letters</title>
     <style>
+        @keyframes rotate360 {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(-360deg);
+            }
+        }
+
+        .rotate {
+            animation: 2s rotate360 infinite linear;
+        }
+
         body {
             display: flex;
             flex-direction: column;
@@ -45,6 +59,17 @@
             margin-left: 3em;
             height: 2em;
         }
+
+        #loading_div {
+            display: none;
+            position: absolute;
+            margin: auto;
+            top: 20em;
+        }
+
+        #loading_img {
+            width: 20em;
+        }
     </style>
 
 </head>
@@ -67,6 +92,7 @@
         <svg id="network" width="450" height="600"></svg>
     </div>
     <div id="logs"></div>
+    <div id="loading_div"><img id="loading_img" src="icons/loading.svg" alt="Loading..." class="rotate"></div>
 </body>
 <!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"> </script> -->
 <script src="tfjs.js"></script>
@@ -468,9 +494,11 @@
     }
 
     var EPOCH = 0;
-    function recursive_train_timeout(t = 50) {
-        setTimeout(() => {
-            recursive_train();
+    async function recursive_train_timeout(t = 50) {
+        document.getElementById("loading_div").style.display = 'block';
+        setTimeout(async () => {
+            await recursive_train();
+            document.getElementById("loading_div").style.display = 'none';
         }, t);
     }
     async function recursive_train() {
@@ -482,14 +510,13 @@
                 EPOCH++;
                 recursive_train_timeout();
             } else {
-                model.fit(train_xs, train_ys, { epochs: 1 }).then(() => {
-                    model_middle.layers[0].setWeights(model.layers[0].getWeights());
-                    const t = test();
-                    log_epoch(t);
-                    updateNeurons();
-                    EPOCH++;
-                    recursive_train_timeout();
-                });
+                await model.fit(train_xs, train_ys, { epochs: 1 })
+                model_middle.layers[0].setWeights(model.layers[0].getWeights());
+                const t = test();
+                log_epoch(t);
+                updateNeurons();
+                EPOCH++;
+                recursive_train_timeout();
             }
 
         }
