@@ -36,7 +36,7 @@
     <h1>Futur Letters</h1>
     <div id="training_settings">
         <input id="training_on" type="checkbox"
-            onchange="setTimeout(function (){if(document.getElementById('training_on').checked) {console.log(EPOCH); recursive_train();}}, 10);">
+            onchange="setTimeout(function (){if(document.getElementById('training_on').checked) {recursive_train_timeout();}}, 10);">
         <label for="training_on">Training</label>
         <input id='max_epochs' type="number" min="0" max="100" value="10">
         <label for="max_epochs">Epochs</label>
@@ -354,31 +354,32 @@
     }
 
     var EPOCH = 0;
-    async function recursive_train() {
+    function recursive_train_timeout(t = 50) {
         setTimeout(() => {
-            if (document.getElementById("training_on").checked && EPOCH <= Number(document.getElementById("max_epochs").value)) {
-                if (EPOCH == 0) {
+            recursive_train();
+        }, t);
+    }
+    async function recursive_train() {
+        if (document.getElementById("training_on").checked && EPOCH <= Number(document.getElementById("max_epochs").value)) {
+            if (EPOCH == 0) {
+                const t = await test();
+                console.log('Epoch', 0, t * 100, '%');
+                document.getElementById("logs").innerText = 'Epoch 0: ' + Math.round(t * 10000) / 100 + '% \n';
+                EPOCH++;
+                recursive_train_timeout();
+            } else {
+                model.fit(train_xs, train_ys, { epochs: 1 }).then(() => {
+                    model_middle.layers[0].setWeights(model.layers[0].getWeights());
                     const t = test();
-                    console.log('Epoch', 0, t * 100, '%');
-                    document.getElementById("logs").innerText = 'Epoch 0: ' + Math.round(t * 10000) / 100 + '% \n';
+                    console.log('Epoch', EPOCH, t * 100, '%');
+                    document.getElementById("logs").innerText += 'Epoch ' + EPOCH + ': ' + Math.round(t * 10000) / 100 + '% \n';
+                    updateNeurons();
                     EPOCH++;
-                    recursive_train();
-                } else {
-                    model.fit(train_xs, train_ys, { epochs: 1 }).then(() => {
-                        model_middle.layers[0].setWeights(model.layers[0].getWeights());
-                        const t = test();
-                        console.log('Epoch', EPOCH, t * 100, '%');
-                        document.getElementById("logs").innerText += 'Epoch ' + EPOCH + ': ' + Math.round(t * 10000) / 100 + '% \n';
-                        updateNeurons();
-                        EPOCH++;
-                        if (document.getElementById("training_on").checked && EPOCH <= Number(document.getElementById("max_epochs").value)) {
-                            recursive_train();
-                        }
-                    });
-                }
-
+                    recursive_train_timeout();
+                });
             }
-        }, 100);
+
+        }
     }
 
 </script>
