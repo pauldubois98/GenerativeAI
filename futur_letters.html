@@ -49,7 +49,9 @@
         <input id='max_epochs' type="number" min="0" max="100" value="10"
             onchange="setTimeout(function (){if(document.getElementById('training_on').checked) {recursive_train_timeout();}}, 10);">
         <label for="max_epochs">Epochs</label>
-        <button id="reset_model_button" onclick="reset_model(); recursive_train_timeout();">Reset</button>
+        <button id="reset_model_button" onclick="reset_model(); recursive_train_timeout();">
+            <img alt="reset" src="icons/reset.svg">
+        </button>
     </div>
     <input id="input_letters" oninput="updateNeurons();" type="text" name="input" placeholder="...">
     <div>
