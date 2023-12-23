@@ -42,7 +42,9 @@
         <input id="training_on" type="checkbox"
             onchange="setTimeout(function (){if(document.getElementById('training_on').checked) {recursive_train_timeout();}}, 10);">
         <label for="training_on">Training</label>
-        <input id='max_epochs' type="number" min="0" max="100" value="10">
+        <input id='max_epochs' type="number" min="0" max="100" value="10"
+            onchange="setTimeout(function (){if(document.getElementById('training_on').checked) {recursive_train_timeout();}}, 10);">
+
         <label for="max_epochs">Epochs</label>
     </div>
     <input id="input_letters" oninput="updateNeurons();" type="text" name="input" placeholder="...">
