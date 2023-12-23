@@ -32,6 +32,10 @@
             width: 3em;
             margin-left: 1em;
         }
+
+        #reset_model_button {
+            margin-left: 1em;
+        }
     </style>
 
 </head>
@@ -44,8 +48,8 @@
         <label for="training_on">Training</label>
         <input id='max_epochs' type="number" min="0" max="100" value="10"
             onchange="setTimeout(function (){if(document.getElementById('training_on').checked) {recursive_train_timeout();}}, 10);">
-
         <label for="max_epochs">Epochs</label>
+        <button id="reset_model_button" onclick="reset_model(); recursive_train_timeout();">Reset</button>
     </div>
     <input id="input_letters" oninput="updateNeurons();" type="text" name="input" placeholder="...">
     <div>
@@ -60,8 +64,8 @@
     const ALPHABET = 'abcdefghijklmnopqrstuvwxyz-';
     var N_LETTERS = 3;
     var N_NEURONS = 30;
-    const model = tf.sequential();
-    const model_middle = tf.sequential();
+    var model = tf.sequential();
+    var model_middle = tf.sequential();
     var train_xs;
     var train_ys;
 
@@ -304,15 +308,18 @@
     }
     function reset_model() {
         // drop all layers
-        model.layers.forEach(l => l.dispose());
+        model = tf.sequential();
         // add new layers
         model.add(tf.layers.dense({ units: N_NEURONS, inputShape: [N_LETTERS * ALPHABET.length], activation: 'relu' }));
         model.add(tf.layers.dense({ units: ALPHABET.length }));
         model.add(tf.layers.softmax());
         model.compile({ loss: 'meanSquaredError', optimizer: tf.train.adam(0.001) });
         // middle layer model
-        model_middle.layers.forEach(l => l.dispose());
+        model_middle = tf.sequential();
         model_middle.add(model.layers[0]);
+        // drop logs & reset EPOCH
+        document.getElementById("logs").innerText = '';
+        EPOCH = 0;
     }
     reset_model();
 
