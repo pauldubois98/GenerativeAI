@@ -26,13 +26,17 @@
     <h1>Futur Letters</h1>
     <input id="input_letters" oninput="updateNeurons();" type="text" name="input" placeholder="...">
     <div>
+        <input id="training_on" type="checkbox" checked>
+        <label for="training_on">Training</label>
+    </div>
+    <div>
         <svg id="network" width="450" height="600"></svg>
     </div>
     <div id="logs"></div>
 </body>
 <!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"> </script> -->
 <script src="tfjs.js"></script>
-<script src="words.js"></script>
+<script src="alphabet1000.js"></script>
 <script>
     const ALPHABET = 'abcdefghijklmnopqrstuvwxyz-';
     var N_LETTERS = 3;
@@ -330,13 +334,14 @@
     onload = () => {
         updateNeurons();
         setTimeout(() => {
-            const t = test();
-            console.log('Epoch', 0, t * 100, '%');
-            document.getElementById("logs").innerText = 'Epoch 0: ' + Math.round(t * 10000) / 100 + '% \n';
-        }, 100);
-        setTimeout(() => {
-            recursive_train();
-        }, 150);
+            if (document.getElementById("training_on").checked) {
+                const t = test();
+                console.log('Epoch', 0, t * 100, '%');
+                document.getElementById("logs").innerText = 'Epoch 0: ' + Math.round(t * 10000) / 100 + '% \n';
+                recursive_train();
+            }
+        }, 1000);
+
 
 
     }
@@ -348,9 +353,9 @@
             model_middle.layers[0].setWeights(model.layers[0].getWeights());
             const t = test();
             console.log('Epoch', EPOCH, t * 100, '%');
-            document.getElementById("logs").innerText += 'Epoch '+ EPOCH +': ' + Math.round(t * 10000) / 100 + '% \n';
+            document.getElementById("logs").innerText += 'Epoch ' + EPOCH + ': ' + Math.round(t * 10000) / 100 + '% \n';
             updateNeurons();
-            if (EPOCH < k) {
+            if (document.getElementById("training_on").checked) {
                 recursive_train(k);
             }
         });
