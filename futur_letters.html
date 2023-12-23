@@ -19,6 +19,10 @@
             border: 1px solid black;
         }
 
+        #alphabet_line_0 {
+            cursor: pointer;
+        }
+
         #training_settings {
             margin-top: 0.5em;
             margin-bottom: 1.5em;
@@ -125,6 +129,16 @@
         halton_neurons(y + dy, 580 - dy, N_NEURONS)
         // alphabet output
         alphabet_line(580, '0');
+        // clickable alphabet output
+        for (const neuron of document.getElementById('alphabet_line_0').children) {
+            if (neuron.nodeName = 'circle') {
+                neuron.addEventListener('click', function () {
+                    document.getElementById("input_letters").value += neuron.id[0];
+                    updateNeurons();
+                });
+            }
+
+        }
     }
     draw_network();
 
