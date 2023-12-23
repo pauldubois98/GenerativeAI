@@ -26,15 +26,20 @@
         #training_settings {
             margin-top: 0.5em;
             margin-bottom: 1.5em;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
         }
 
         #max_epochs {
             width: 3em;
-            margin-left: 1em;
+            margin-left: 2em;
+            margin-right: 0.25em;
         }
 
         #reset_model_button {
-            margin-left: 1em;
+            margin-left: 3em;
+            height: 2em;
         }
     </style>
 
@@ -50,7 +55,7 @@
             onchange="setTimeout(function (){if(document.getElementById('training_on').checked) {recursive_train_timeout();}}, 10);">
         <label for="max_epochs">Epochs</label>
         <button id="reset_model_button" onclick="reset_model(); recursive_train_timeout();">
-            <img alt="reset" src="icons/reset.svg">
+            <img alt="reset" src="icons/reset.svg" style="height: 1.5em;">
         </button>
     </div>
     <input id="input_letters" oninput="updateNeurons();" type="text" name="input" placeholder="...">
