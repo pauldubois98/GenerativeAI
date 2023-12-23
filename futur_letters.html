@@ -66,6 +66,8 @@
 </body>
 <!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"> </script> -->
 <script src="tfjs.js"></script>
+<script src="mots.js"></script>
+<script src="words.js"></script>
 <script src="alphabet200.js"></script>
 <script>
     const ALPHABET = 'abcdefghijklmnopqrstuvwxyz-';
@@ -75,6 +77,20 @@
     var model_middle = tf.sequential();
     var train_xs;
     var train_ys;
+
+    // load get params
+    let params = new URLSearchParams(document.location.search);
+    // language
+    var WORDS_LIST;
+    if (document.location.search != "" && params.has("language") && params.get("language") == "fr") {
+        WORDS_LIST = MOTS;
+        document.getElementsByTagName('h1')[0].innerText = 'Lettres Suivantes';
+    } else if (document.location.search != "" && params.has("language") && params.get("language") == "en") {
+        WORDS_LIST = WORDS;
+        document.getElementsByTagName('h1')[0].innerText = 'Next Letters';
+    } else {
+        WORDS_LIST = WORDS; // default to english
+    }
 
     function letter_neuron(x, y, letter, suffix) {
         var out = '';
@@ -336,8 +352,8 @@
         }
         var xs = [];
         var ys = [];
-        for (let k = 0; k < WORDS.length; k++) {
-            const word = '   ' + WORDS[k];
+        for (let k = 0; k < WORDS_LIST.length; k++) {
+            const word = '   ' + WORDS_LIST[k];
             var i = 0;
             while (i + N_LETTERS < word.length) {
                 const sub_word = word.slice(i, i + N_LETTERS)
