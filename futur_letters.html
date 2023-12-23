@@ -35,7 +35,7 @@
 <body>
     <h1>Futur Letters</h1>
     <div id="training_settings">
-        <input id="training_on" type="checkbox">
+        <input id="training_on" type="checkbox" onchange="recursive_train();">
         <label for="training_on">Training</label>
         <input id='max_epochs' type="number" min="0" max="100" value="10">
         <label for="max_epochs">Epochs</label>
@@ -358,18 +358,20 @@
     }
 
     var EPOCH = 0;
-    function recursive_train(k = 10) {
-        EPOCH++;
-        model.fit(train_xs, train_ys, { epochs: 1 }).then(() => {
-            model_middle.layers[0].setWeights(model.layers[0].getWeights());
-            const t = test();
-            console.log('Epoch', EPOCH, t * 100, '%');
-            document.getElementById("logs").innerText += 'Epoch ' + EPOCH + ': ' + Math.round(t * 10000) / 100 + '% \n';
-            updateNeurons();
-            if (document.getElementById("training_on").checked && EPOCH <= Number(document.getElementById("max_epochs").value)) {
-                recursive_train(k);
-            }
-        });
+    function recursive_train() {
+        if (document.getElementById("training_on").checked && EPOCH <= Number(document.getElementById("max_epochs").value)) {
+            EPOCH++;
+            model.fit(train_xs, train_ys, { epochs: 1 }).then(() => {
+                model_middle.layers[0].setWeights(model.layers[0].getWeights());
+                const t = test();
+                console.log('Epoch', EPOCH, t * 100, '%');
+                document.getElementById("logs").innerText += 'Epoch ' + EPOCH + ': ' + Math.round(t * 10000) / 100 + '% \n';
+                updateNeurons();
+                if (document.getElementById("training_on").checked && EPOCH <= Number(document.getElementById("max_epochs").value)) {
+                    recursive_train();
+                }
+            });
+        }
     }
 
 </script>
