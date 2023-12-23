@@ -436,7 +436,6 @@
         return [xs_tensor, ys_tensor];
     }
     function test() {
-        create_training_data();
         // predict for each item in training data
         const ys_tensor = model.predict(train_xs);
         const ys = ys_tensor.argMax(-1).dataSync();
@@ -474,7 +473,8 @@
     async function recursive_train() {
         if (document.getElementById("training_on").checked && EPOCH <= Number(document.getElementById("max_epochs").value)) {
             if (EPOCH == 0) {
-                const t = await test();
+                await create_training_data();
+                const t = test();
                 log_epoch(t);
                 EPOCH++;
                 recursive_train_timeout();
