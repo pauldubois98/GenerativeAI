@@ -84,13 +84,20 @@
     var WORDS_LIST;
     if (document.location.search != "" && params.has("language") && params.get("language") == "fr") {
         WORDS_LIST = MOTS;
-        document.getElementsByTagName('h1')[0].innerText = 'Lettres Suivantes';
+        document.getElementsByTagName('h1')[0].innerText = 'Lettres Futures';
     } else if (document.location.search != "" && params.has("language") && params.get("language") == "en") {
         WORDS_LIST = WORDS;
-        document.getElementsByTagName('h1')[0].innerText = 'Next Letters';
+        document.getElementsByTagName('h1')[0].innerText = 'Futur Letters';
     } else {
         WORDS_LIST = WORDS; // default to english
     }
+    // data
+    if (document.location.search != "" && params.has("data") && params.get("data") == "test") {
+        WORDS_LIST = TEST;
+    } else {
+        // keep normal words list
+    }
+
 
     function letter_neuron(x, y, letter, suffix) {
         var out = '';

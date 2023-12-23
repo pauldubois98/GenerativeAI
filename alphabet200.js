@@ -1,4 +1,4 @@
-const WORDS = [
+const TEST = [
   "abcdefghijklmnopqrstuvwxyz-",
   "abcdefghijklmnopqrstuvwxyz-",
   "abcdefghijklmnopqrstuvwxyz-",
