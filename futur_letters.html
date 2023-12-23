@@ -77,11 +77,9 @@
 <body>
     <h1>Futur Letters</h1>
     <div id="training_settings">
-        <input id="training_on" type="checkbox"
-            onchange="setTimeout(function (){if(document.getElementById('training_on').checked) {recursive_train_timeout();}}, 10);">
+        <input id="training_on" type="checkbox" onchange="recursive_train_timeout()">
         <label id="training_on_label" for="training_on">Training</label>
-        <input id='max_epochs' type="number" min="0" max="100" value="10"
-            onchange="setTimeout(function (){if(document.getElementById('training_on').checked) {recursive_train_timeout();}}, 10);">
+        <input id='max_epochs' type="number" min="0" max="100" value="10" onchange="recursive_train_timeout();">
         <label id='max_epochs_label' for="max_epochs">Epochs</label>
         <button id="reset_model_button" onclick="reset_model(); recursive_train_timeout();">
             <img alt="reset" src="icons/reset.svg" style="height: 1.5em;">
@@ -109,6 +107,7 @@
     var train_ys;
     var train_dataset;
     var data;
+    var training_on_going = false;
 
     // load get params
     let params = new URLSearchParams(document.location.search);
@@ -469,34 +468,36 @@
     }
     onload = () => {
         updateNeurons();
-        if (document.getElementById("training_on").checked) {
-            document.getElementById("loading_div").style.display = 'block';
-        } else{
-            document.getElementById("loading_div").style.display = 'none';
-        }
         setTimeout(() => {
-            if (document.getElementById("training_on").checked && EPOCH <= Number(document.getElementById("max_epochs").value)) {
-                recursive_train();
-            }
-        }, 1000);
+            recursive_train_timeout();
+        }, 100);
     }
 
     var EPOCH = 0;
     async function recursive_train_timeout(t = 50) {
-        document.getElementById("loading_div").style.display = 'block';
-        setTimeout(async () => {
-            await recursive_train();
+        if (training_on_going) {
+            return;
+        }
+        if (document.getElementById("training_on").checked && EPOCH <= Number(document.getElementById("max_epochs").value)) {
+            document.getElementById("loading_div").style.display = 'block';
+            training_on_going = true;
+            setTimeout(async () => {
+                await train();
+                training_on_going = false;
+                recursive_train_timeout(t = 50);
+            }, t);
+        } else {
             document.getElementById("loading_div").style.display = 'none';
-        }, t);
+            training_on_going = false;
+        }
     }
-    async function recursive_train() {
+    async function train() {
         if (document.getElementById("training_on").checked && EPOCH <= Number(document.getElementById("max_epochs").value)) {
             if (EPOCH == 0) {
                 await create_training_data();
                 const t = test();
                 log_epoch(t);
                 EPOCH++;
-                recursive_train_timeout();
             } else {
                 await model.fit(train_xs, train_ys, { epochs: 1 })
                 model_middle.layers[0].setWeights(model.layers[0].getWeights());
@@ -504,7 +505,6 @@
                 log_epoch(t);
                 updateNeurons();
                 EPOCH++;
-                recursive_train_timeout();
             }
 
         }
