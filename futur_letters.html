@@ -389,6 +389,21 @@
         if (train_xs != undefined) {
             return [train_xs, train_ys];
         }
+        if (!force) {
+            try {
+                data = await fetch(`data/${train_dataset}.json`).then((response) => response.json())
+                train_xs = await tf.tensor(data.xs);
+                train_ys = await tf.tensor(data.ys);
+                await setTimeout(() => {
+                    console.log('Training data loaded');
+                }, 100);
+                return [train_xs, train_ys];
+            } catch (error) {
+                console.log('No training data found');
+                console.log(error);
+            }
+        }
+        console.log('Creating training data');
         var xs = [];
         var ys = [];
         for (let k = 0; k < WORDS_LIST.length; k++) {
