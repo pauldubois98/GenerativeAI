@@ -70,9 +70,9 @@
 </body>
 <!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"> </script> -->
 <script src="tfjs.js"></script>
-<script src="mots.js"></script>
-<script src="words.js"></script>
-<script src="alphabet200.js"></script>
+<!-- <script src="mots.js"></script> -->
+<!-- <script src="words.js"></script> -->
+<!-- <script src="alphabet200.js"></script> -->
 <script>
     const ALPHABET = 'abcdefghijklmnopqrstuvwxyz-';
     var N_LETTERS = 3;
@@ -87,23 +87,26 @@
     // load get params
     let params = new URLSearchParams(document.location.search);
     // language
-    var WORDS_LIST;
+    // var WORDS_LIST;
     if (document.location.search != "" && params.has("language") && params.get("language") == "fr") {
-        WORDS_LIST = MOTS;
+        // WORDS_LIST = MOTS;
+        train_dataset = "mots";
         document.getElementsByTagName('h1')[0].innerText = 'Lettres Futures';
         document.getElementById('training_on_label').innerText = 'Entrainement';
         document.getElementById('max_epochs_label').innerText = 'Époques';
     } else if (document.location.search != "" && params.has("language") && params.get("language") == "en") {
-        WORDS_LIST = WORDS;
+        // WORDS_LIST = WORDS;
+        train_dataset = "words";
         document.getElementsByTagName('h1')[0].innerText = 'Futur Letters';
         document.getElementById('training_on_label').innerText = 'Training';
         document.getElementById('max_epochs_label').innerText = 'Epochs';
     } else {
-        WORDS_LIST = WORDS; // default to english
+        // default to english
+        train_dataset = "test";
     }
     // data
     if (document.location.search != "" && params.has("data") && params.get("data") == "test") {
-        WORDS_LIST = TEST;
+        train_dataset = params.get("data");
     } else {
         // keep normal words list
     }
@@ -387,8 +390,8 @@
         element.click();
         document.body.removeChild(element);
     }
-    function create_training_data() {
-        if (train_xs != undefined) {
+    async function create_training_data(force = false) {
+        if (!force && train_xs != undefined) {
             return [train_xs, train_ys];
         }
         if (!force) {
