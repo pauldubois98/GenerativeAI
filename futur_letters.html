@@ -180,11 +180,14 @@
     function connectPrimaryNeurons() {
         var out = '';
         const middle_output = predict_middle();
+        const top_middle_output = tf.topk(middle_output, Math.floor(Math.sqrt(N_NEURONS)));
+        const top_middle_indices = top_middle_output.indices.dataSync();
+        const top_middle_values = top_middle_output.values.dataSync();
         var positions = [];
-        for (let i = 0; i < middle_output.length; i++) {
+        for (let i = 0; i < top_middle_indices.length; i++) {
             const neuron = document.getElementById(`neuron${i}`);
-            if (middle_output[i] > 0.5) {
-                positions.push([neuron.cx.animVal.value, neuron.cy.animVal.value, middle_output[i]]);
+            if (top_middle_values[i] > 0.5) {
+                positions.push([neuron.cx.animVal.value, neuron.cy.animVal.value, top_middle_values[i]]);
             }
         }
         const raw_input = document.getElementById("input_letters").value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
@@ -197,10 +200,10 @@
             if (neuron != null) {
                 const x1 = neuron.cx.animVal.value;
                 const y1 = neuron.cy.animVal.value;
-                const v1 = middle_output[i];
+                const v1 = 1;
                 for (let j = 0; j < positions.length; j++) {
                     const [x2, y2, v2] = positions[j];
-                    out += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" style="stroke:rgb(100,100,100);stroke-width:${v1 + v2}" />`;
+                    out += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" style="stroke:rgb(100,100,100);stroke-width:${v2}" />`;
                 }
             }
         }
@@ -220,18 +223,21 @@
             const [x1, y1, v1] = positions[i];
             for (let j = i + 1; j < positions.length; j++) {
                 const [x2, y2, v2] = positions[j];
-                out += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" style="stroke:rgb(100,100,100);stroke-width:${v1 + v2}" />`;
+                out += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" style="stroke:rgb(100,100,100);stroke-width:${(v1 + v2) * 0.6}" />`;
             }
         }
         document.getElementById("middle_connexions").innerHTML = out;
     }
     function connectLastNeuron() {
         const middle_output = predict_middle();
+        const top_middle_output = tf.topk(middle_output, Math.floor(Math.sqrt(N_NEURONS)));
+        const top_middle_indices = top_middle_output.indices.dataSync();
+        const top_middle_values = top_middle_output.values.dataSync();
         var positions = [];
-        for (let i = 0; i < middle_output.length; i++) {
+        for (let i = 0; i < top_middle_indices.length; i++) {
             const neuron = document.getElementById(`neuron${i}`);
-            if (middle_output[i] > 0.5) {
-                positions.push([neuron.cx.animVal.value, neuron.cy.animVal.value, middle_output[i]]);
+            if (top_middle_values[i] > 0.5) {
+                positions.push([neuron.cx.animVal.value, neuron.cy.animVal.value, top_middle_values[i]]);
             }
         }
         const predicted_ch = predict();
@@ -242,7 +248,7 @@
         const v1 = 1;
         for (let j = 0; j < positions.length; j++) {
             const [x2, y2, v2] = positions[j];
-            out += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" style="stroke:rgb(100,100,100);stroke-width:${v1 + v2}" />`;
+            out += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" style="stroke:rgb(100,100,100);stroke-width:${v2}" />`;
         }
         document.getElementById("end_connexions").innerHTML = out;
     }
