@@ -213,7 +213,7 @@
 
     }
     function activateOutputNeurons() {
-        const predicted_ch = predict();
+        const predicted_ch = predict_letter();
         const neuron = document.getElementById(`${predicted_ch}0_circle`);
         neuron.style.fill = '#0f0';
     }
@@ -280,7 +280,7 @@
                 positions.push([neuron.cx.animVal.value, neuron.cy.animVal.value, top_middle_values[i]]);
             }
         }
-        const predicted_ch = predict();
+        const predicted_ch = predict_letter();
         var out = '';
         const neuron = document.getElementById(`${predicted_ch}0_circle`);
         const x1 = neuron.cx.animVal.value;
@@ -323,7 +323,7 @@
         }
         return out;
     }
-    function predict() {
+    function predict_letter() {
         const raw_input = ' '.repeat(N_LETTERS) + document.getElementById("input_letters").value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
         const n_input = Math.min(N_LETTERS, raw_input.length);
         const letters_input = raw_input.slice(-n_input);
@@ -331,6 +331,14 @@
         const output_tensor = model.predict(input_tensor);
         const output_string = tensorToString(output_tensor);
         return output_string;
+    }
+    function predict() {
+        const raw_input = ' '.repeat(N_LETTERS) + document.getElementById("input_letters").value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        const n_input = Math.min(N_LETTERS, raw_input.length);
+        const letters_input = raw_input.slice(-n_input);
+        const input_tensor = stringToTensor(letters_input).reshape([1, N_LETTERS * ALPHABET.length]);
+        const output_tensor = model.predict(input_tensor);
+        return output_tensor.dataSync();
     }
     function predict_middle() {
         const raw_input = ' '.repeat(N_LETTERS) + document.getElementById("input_letters").value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
