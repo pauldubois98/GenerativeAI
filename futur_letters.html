@@ -216,6 +216,13 @@
         const predicted_ch = predict_letter();
         const neuron = document.getElementById(`${predicted_ch}0_circle`);
         neuron.style.fill = '#0f0';
+        const predicted_probabilities = predict();
+        const max_probabilities = Math.max(...predicted_probabilities);
+        for (let i = 0; i < predicted_probabilities.length; i++) {
+            const neuron = document.getElementById(`${ALPHABET[i]}0_circle`);
+            const g = Math.min(255, Math.max(0, Math.floor(255 * (predicted_probabilities[i] / max_probabilities))));
+            neuron.style.fill = `rgb(${255 - g},255,${255 - g})`;
+        }
     }
     function connectPrimaryNeurons() {
         var out = '';
