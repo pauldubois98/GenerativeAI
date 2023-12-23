@@ -81,6 +81,8 @@
     var model_middle = tf.sequential();
     var train_xs;
     var train_ys;
+    var train_dataset;
+    var data;
 
     // load get params
     let params = new URLSearchParams(document.location.search);
@@ -426,6 +428,11 @@
         const ys_tensor = tf.oneHot(tf.tensor1d(ys, 'int32'), ALPHABET.length).cast('float32');
         train_xs = xs_tensor;
         train_ys = ys_tensor;
+        // // save
+        // var train_xs_array = JSON.stringify(train_xs.arraySync());
+        // var train_ys_array = JSON.stringify(train_ys.arraySync());
+        // data = await JSON.stringify({ xs: train_xs_array, ys: train_ys_array });
+        // download(`${train_dataset}.json`, data); // uncomment to download the training data as a json file
         return [xs_tensor, ys_tensor];
     }
     function train(k = 100) {
