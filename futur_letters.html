@@ -50,10 +50,10 @@
     <div id="training_settings">
         <input id="training_on" type="checkbox"
             onchange="setTimeout(function (){if(document.getElementById('training_on').checked) {recursive_train_timeout();}}, 10);">
-        <label for="training_on">Training</label>
+        <label id="training_on_label" for="training_on">Training</label>
         <input id='max_epochs' type="number" min="0" max="100" value="10"
             onchange="setTimeout(function (){if(document.getElementById('training_on').checked) {recursive_train_timeout();}}, 10);">
-        <label for="max_epochs">Epochs</label>
+        <label id='max_epochs_label' for="max_epochs">Epochs</label>
         <button id="reset_model_button" onclick="reset_model(); recursive_train_timeout();">
             <img alt="reset" src="icons/reset.svg" style="height: 1.5em;">
         </button>
@@ -85,9 +85,13 @@
     if (document.location.search != "" && params.has("language") && params.get("language") == "fr") {
         WORDS_LIST = MOTS;
         document.getElementsByTagName('h1')[0].innerText = 'Lettres Futures';
+        document.getElementById('training_on_label').innerText = 'Entrainement';
+        document.getElementById('max_epochs_label').innerText = 'Époques';
     } else if (document.location.search != "" && params.has("language") && params.get("language") == "en") {
         WORDS_LIST = WORDS;
         document.getElementsByTagName('h1')[0].innerText = 'Futur Letters';
+        document.getElementById('training_on_label').innerText = 'Training';
+        document.getElementById('max_epochs_label').innerText = 'Epochs';
     } else {
         WORDS_LIST = WORDS; // default to english
     }
@@ -403,6 +407,13 @@
         }
         return n_correct / ys.length;
     }
+    function log_epoch(t) {
+        console.log('Epoch', EPOCH, t * 100, '%');
+        var out = '';
+        out += document.getElementById('max_epochs_label').innerText.slice(0, document.getElementById('max_epochs_label').innerText.length - 1);
+        out += ' ' + EPOCH + ': ' + Math.round(t * 10000) / 100 + '% \n';
+        document.getElementById("logs").innerText += out;
+    }
     onload = () => {
         updateNeurons();
         setTimeout(() => {
@@ -422,16 +433,14 @@
         if (document.getElementById("training_on").checked && EPOCH <= Number(document.getElementById("max_epochs").value)) {
             if (EPOCH == 0) {
                 const t = await test();
-                console.log('Epoch', 0, t * 100, '%');
-                document.getElementById("logs").innerText = 'Epoch 0: ' + Math.round(t * 10000) / 100 + '% \n';
+                log_epoch(t);
                 EPOCH++;
                 recursive_train_timeout();
             } else {
                 model.fit(train_xs, train_ys, { epochs: 1 }).then(() => {
                     model_middle.layers[0].setWeights(model.layers[0].getWeights());
                     const t = test();
-                    console.log('Epoch', EPOCH, t * 100, '%');
-                    document.getElementById("logs").innerText += 'Epoch ' + EPOCH + ': ' + Math.round(t * 10000) / 100 + '% \n';
+                    log_epoch(t);
                     updateNeurons();
                     EPOCH++;
                     recursive_train_timeout();
