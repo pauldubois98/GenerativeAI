@@ -96,9 +96,9 @@
 </body>
 <!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"> </script> -->
 <script src="tfjs.js"></script>
-<!-- <script src="mots.js"></script> -->
-<!-- <script src="words.js"></script> -->
-<!-- <script src="alphabet200.js"></script> -->
+<script src="mots.js"></script>
+<script src="words.js"></script>
+<script src="alphabet200.js"></script>
 <script>
     const ALPHABET = 'abcdefghijklmnopqrstuvwxyz-';
     var N_LETTERS = 3;
@@ -113,26 +113,28 @@
     // load get params
     let params = new URLSearchParams(document.location.search);
     // language
-    // var WORDS_LIST;
+    var WORDS_LIST;
     if (document.location.search != "" && params.has("language") && params.get("language") == "fr") {
-        // WORDS_LIST = MOTS;
+        WORDS_LIST = MOTS;
         train_dataset = "mots";
         document.getElementsByTagName('h1')[0].innerText = 'Lettres Futures';
         document.getElementById('training_on_label').innerText = 'Entrainement';
         document.getElementById('max_epochs_label').innerText = 'Époques';
     } else if (document.location.search != "" && params.has("language") && params.get("language") == "en") {
-        // WORDS_LIST = WORDS;
+        WORDS_LIST = WORDS;
         train_dataset = "words";
         document.getElementsByTagName('h1')[0].innerText = 'Futur Letters';
         document.getElementById('training_on_label').innerText = 'Training';
         document.getElementById('max_epochs_label').innerText = 'Epochs';
     } else {
         // default to english
+        WORDS_LIST = WORDS;
         train_dataset = "test";
     }
     // data
     if (document.location.search != "" && params.has("data") && params.get("data") == "test") {
-        train_dataset = params.get("data");
+        WORDS_LIST = TEST;
+        train_dataset = "test";
     } else {
         // keep normal words list
     }
@@ -420,20 +422,6 @@
         if (!force && train_xs != undefined) {
             return [train_xs, train_ys];
         }
-        if (!force) {
-            try {
-                data = await fetch(`data/${train_dataset}.json`).then((response) => response.json())
-                train_xs = await tf.tensor(data.xs);
-                train_ys = await tf.tensor(data.ys);
-                await setTimeout(() => {
-                    console.log('Training data loaded');
-                }, 100);
-                return [train_xs, train_ys];
-            } catch (error) {
-                console.log('No training data found');
-                console.log(error);
-            }
-        }
         console.log('Creating training data');
         var xs = [];
         var ys = [];
@@ -457,11 +445,6 @@
         const ys_tensor = tf.oneHot(tf.tensor1d(ys, 'int32'), ALPHABET.length).cast('float32');
         train_xs = xs_tensor;
         train_ys = ys_tensor;
-        // // save
-        // var train_xs_array = JSON.stringify(train_xs.arraySync());
-        // var train_ys_array = JSON.stringify(train_ys.arraySync());
-        // data = await JSON.stringify({ xs: train_xs_array, ys: train_ys_array });
-        // download(`${train_dataset}.json`, data); // uncomment to download the training data as a json file
         return [xs_tensor, ys_tensor];
     }
     function test() {
