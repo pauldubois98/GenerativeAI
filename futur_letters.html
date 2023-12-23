@@ -18,19 +18,29 @@
         #network {
             border: 1px solid black;
         }
+
+        #training_settings {
+            margin-top: 0.5em;
+            margin-bottom: 1.5em;
+        }
+
+        #max_epochs {
+            width: 3em;
+            margin-left: 1em;
+        }
     </style>
 
 </head>
 
 <body>
     <h1>Futur Letters</h1>
-    <input id="input_letters" oninput="updateNeurons();" type="text" name="input" placeholder="...">
-    <div>
-        <input id="training_on" type="checkbox" checked>
+    <div id="training_settings">
+        <input id="training_on" type="checkbox">
         <label for="training_on">Training</label>
-        <input id='max_epochs' type="number" style="width: 3em;" min="0" max="100" value="10">
+        <input id='max_epochs' type="number" min="0" max="100" value="10">
         <label for="max_epochs">Epochs</label>
     </div>
+    <input id="input_letters" oninput="updateNeurons();" type="text" name="input" placeholder="...">
     <div>
         <svg id="network" width="450" height="600"></svg>
     </div>
