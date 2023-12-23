@@ -469,6 +469,11 @@
     }
     onload = () => {
         updateNeurons();
+        if (document.getElementById("training_on").checked) {
+            document.getElementById("loading_div").style.display = 'block';
+        } else{
+            document.getElementById("loading_div").style.display = 'none';
+        }
         setTimeout(() => {
             if (document.getElementById("training_on").checked && EPOCH <= Number(document.getElementById("max_epochs").value)) {
                 recursive_train();
