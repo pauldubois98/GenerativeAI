@@ -28,6 +28,8 @@
     <div>
         <input id="training_on" type="checkbox" checked>
         <label for="training_on">Training</label>
+        <input id='max_epochs' type="number" style="width: 3em;" min="0" max="100" value="10">
+        <label for="max_epochs">Epochs</label>
     </div>
     <div>
         <svg id="network" width="450" height="600"></svg>
@@ -338,12 +340,11 @@
                 const t = test();
                 console.log('Epoch', 0, t * 100, '%');
                 document.getElementById("logs").innerText = 'Epoch 0: ' + Math.round(t * 10000) / 100 + '% \n';
-                recursive_train();
+                if (document.getElementById("training_on").checked && EPOCH <= Number(document.getElementById("max_epochs").value)) {
+                    recursive_train();
+                }
             }
         }, 1000);
-
-
-
     }
 
     var EPOCH = 0;
@@ -355,7 +356,7 @@
             console.log('Epoch', EPOCH, t * 100, '%');
             document.getElementById("logs").innerText += 'Epoch ' + EPOCH + ': ' + Math.round(t * 10000) / 100 + '% \n';
             updateNeurons();
-            if (document.getElementById("training_on").checked) {
+            if (document.getElementById("training_on").checked && EPOCH <= Number(document.getElementById("max_epochs").value)) {
                 recursive_train(k);
             }
         });
