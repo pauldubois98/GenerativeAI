@@ -466,7 +466,7 @@
         var xs = [];
         var ys = [];
         for (let k = 0; k < WORDS_LIST.length; k++) {
-            const word = '   ' + WORDS_LIST[k];
+            const word = ' '.repeat(N_LETTERS) + WORDS_LIST[k];
             var i = 0;
             while (i + N_LETTERS < word.length) {
                 const sub_word = word.slice(i, i + N_LETTERS)
