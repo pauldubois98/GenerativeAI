@@ -23,6 +23,23 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            margin-top: 0;
+        }
+
+        #network_settings {
+            /* margin-bottom: 1.5em; */
+            border: gray dotted 2px;
+            padding: 0em 1em 0.5em 1em;
+            margin-top: -2px;
+        }
+
+        #N_LETTERS {
+            width: 3em;
+        }
+
+        #N_NEURONS {
+            width: 3em;
+            margin-left: 2em;
         }
 
         #input_letters {
@@ -77,10 +94,9 @@
 <body>
     <div id="network_settings">
         <input id="N_LETTERS" type="number" min="1" max="10" value="3" onchange="init();">
-        <label for="N_LETTERS">N_LETTERS</label>
-
+        <label id="N_LETTERS_label" for="N_LETTERS">Letters</label>
         <input id="N_NEURONS" type="number" min="1" max="100" value="30" onchange="init();">
-        <label for="N_NEURONS">N_NEURONS</label>
+        <label id="N_NEURONS_label" for="N_NEURONS">Neurons</label>
     </div>
     <h1>Futur Letters</h1>
     <div id="training_settings">
@@ -128,12 +144,16 @@
         document.getElementsByTagName('h1')[0].innerText = 'Lettres Futures';
         document.getElementById('training_on_label').innerText = 'Entrainement';
         document.getElementById('max_epochs_label').innerText = 'Époques';
+        document.getElementById('N_LETTERS_label').innerText = 'Lettres';
+        document.getElementById('N_NEURONS_label').innerText = 'Neurones';
     } else if (document.location.search != "" && params.has("language") && params.get("language") == "en") {
         WORDS_LIST = WORDS;
         train_dataset = "words";
         document.getElementsByTagName('h1')[0].innerText = 'Futur Letters';
         document.getElementById('training_on_label').innerText = 'Training';
         document.getElementById('max_epochs_label').innerText = 'Epochs';
+        document.getElementById('N_LETTERS_label').innerText = 'Letters';
+        document.getElementById('N_NEURONS_label').innerText = 'Neurons';
     } else {
         // default to english
         WORDS_LIST = WORDS;
