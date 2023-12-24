@@ -101,6 +101,7 @@
     const ALPHABET = 'abcdefghijklmnopqrstuvwxyz-';
     var N_LETTERS = 3;
     var N_NEURONS = 30;
+    var EPOCH = 0;
     var model = tf.sequential();
     var model_middle = tf.sequential();
     var train_xs;
@@ -228,7 +229,6 @@
 
         }
     }
-    draw_network();
 
     function deactivateNeurons() {
         for (const letter of ALPHABET) {
@@ -418,7 +418,6 @@
         document.getElementById("logs").innerText = '';
         EPOCH = 0;
     }
-    reset_model();
 
     function download(filename, text) {
         var element = document.createElement('a');
@@ -478,14 +477,17 @@
         out += ' ' + EPOCH + ': ' + Math.round(t * 10000) / 100 + '% \n';
         document.getElementById("logs").innerText += out;
     }
-    onload = () => {
+    function init(){
+        EPOCH = 0;
+        draw_network();
+        reset_model();
         updateNeurons();
         setTimeout(() => {
             recursive_train_timeout();
         }, 100);
     }
+    onload = init;
 
-    var EPOCH = 0;
     async function recursive_train_timeout(t = 50) {
         if (training_on_going) {
             return;
