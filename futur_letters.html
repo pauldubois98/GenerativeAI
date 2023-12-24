@@ -75,6 +75,13 @@
 </head>
 
 <body>
+    <div id="network_settings">
+        <input id="N_LETTERS" type="number" min="1" max="10" value="3" onchange="init();">
+        <label for="N_LETTERS">N_LETTERS</label>
+
+        <input id="N_NEURONS" type="number" min="1" max="100" value="30" onchange="init();">
+        <label for="N_NEURONS">N_NEURONS</label>
+    </div>
     <h1>Futur Letters</h1>
     <div id="training_settings">
         <input id="training_on" type="checkbox" onchange="recursive_train_timeout()">
@@ -141,12 +148,14 @@
     // N_LETTERS
     if (document.location.search != "" && params.has("N_LETTERS")) {
         N_LETTERS = Number(params.get("N_LETTERS"));
+        document.getElementById("N_LETTERS").value = N_LETTERS;
     } else {
         // keep default value
     }
     // N_NEURONS
     if (document.location.search != "" && params.has("N_NEURONS")) {
         N_NEURONS = Number(params.get("N_NEURONS"));
+        document.getElementById("N_NEURONS").value = N_NEURONS;
     } else {
         // keep default value
     }
@@ -477,7 +486,9 @@
         out += ' ' + EPOCH + ': ' + Math.round(t * 10000) / 100 + '% \n';
         document.getElementById("logs").innerText += out;
     }
-    function init(){
+    function init() {
+        N_LETTERS = Number(document.getElementById("N_LETTERS").value);
+        N_NEURONS = Number(document.getElementById("N_NEURONS").value);
         EPOCH = 0;
         draw_network();
         reset_model();
