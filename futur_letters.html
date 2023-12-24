@@ -120,6 +120,7 @@
 <script src="mots_extended.js"></script>
 <script src="words_extended.js"></script>
 <script src="alphabet200.js"></script>
+<script src="toto.js"></script>
 <script>
     const ALPHABET = 'abcdefghijklmnopqrstuvwxyz-*';
     var N_LETTERS = 3;
@@ -163,6 +164,9 @@
     if (document.location.search != "" && params.has("data") && params.get("data") == "test") {
         WORDS_LIST = TEST;
         train_dataset = "test";
+    } else if (document.location.search != "" && params.has("data") && params.get("data") == "toto") {
+        WORDS_LIST = TOTO;
+        train_dataset = "toto";
     } else {
         // keep normal words list
     }

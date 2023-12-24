@@ -1,0 +1,1 @@
+const TOTO = ["abcde", "wxyz"];
