@@ -137,6 +137,12 @@
     } else {
         // keep normal words list
     }
+    // N_LETTERS
+    if (document.location.search != "" && params.has("N_LETTERS")) {
+        N_LETTERS = Number(params.get("N_LETTERS"));
+    } else {
+        // keep default value
+    }
 
 
     function letter_neuron(x, y, letter, suffix) {
