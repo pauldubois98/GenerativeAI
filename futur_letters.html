@@ -113,6 +113,7 @@
     var model_middle = tf.sequential();
     var train_xs;
     var train_ys;
+    var train_letters;
     var train_dataset;
     var data;
     var training_on_going = false;
@@ -438,7 +439,7 @@
         document.body.removeChild(element);
     }
     async function create_training_data(force = false) {
-        if (!force && train_xs != undefined) {
+        if (!force && train_xs != undefined && train_ys != undefined && train_letters == N_LETTERS) {
             return [train_xs, train_ys];
         }
         console.log('Creating training data');
@@ -464,6 +465,7 @@
         const ys_tensor = tf.oneHot(tf.tensor1d(ys, 'int32'), ALPHABET.length).cast('float32');
         train_xs = xs_tensor;
         train_ys = ys_tensor;
+        train_letters = N_LETTERS;
         return [xs_tensor, ys_tensor];
     }
     function test() {
