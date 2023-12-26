@@ -442,7 +442,7 @@
         model = tf.sequential();
         // add new layers
         model.add(tf.layers.dense({ units: N_NEURONS, inputShape: [N_LETTERS * ALPHABET.length], activation: 'relu' }));
-        model.add(tf.layers.dense({ units: ALPHABET.length }));
+        model.add(tf.layers.dense({ units: ALPHABET.length, biasInitializer: "randomNormal" }));
         model.add(tf.layers.softmax());
         model.compile({ loss: 'meanSquaredError', optimizer: tf.train.adam(0.001) });
         // middle layer model
@@ -503,6 +503,8 @@
                 n_correct++;
             }
         }
+        // console.log('Test', n_correct, ys.length);
+        // console.log(ys, true_ys);
         return n_correct / ys.length;
     }
     function log_epoch(t) {
