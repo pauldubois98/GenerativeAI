@@ -454,6 +454,15 @@
         document.getElementById("logs").innerText = '';
         EPOCH = 0;
     }
+    function top_letter() {
+        const raw_input = ' '.repeat(N_LETTERS) + document.getElementById("input_letters").value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        const last_letter = raw_input[raw_input.length - 1];
+        if (last_letter == undefined || last_letter != '*') {
+            const predicted_ch = predict_letter();
+            document.getElementById("input_letters").value += predicted_ch;
+            updateNeurons();
+        }
+    }
 
     async function create_training_data(force = false) {
         if (!force && train_xs != undefined && train_ys != undefined && train_letters == N_LETTERS) {
