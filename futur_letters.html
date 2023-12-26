@@ -495,6 +495,10 @@
             updateNeurons();
         }
     }
+    function empty_input() {
+        document.getElementById("input_letters").value = '';
+        updateNeurons();
+    }
 
     async function create_training_data(force = false) {
         if (!force && train_xs != undefined && train_ys != undefined && train_letters == N_LETTERS) {
