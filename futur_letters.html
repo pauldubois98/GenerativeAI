@@ -43,7 +43,7 @@
         }
 
         #input_letters {
-            margin: 0.5em;
+            margin: 0.5em 0em;
         }
 
         #network {
@@ -108,7 +108,10 @@
             <img alt="reset" src="icons/reset.svg" style="height: 1.5em;">
         </button>
     </div>
-    <input id="input_letters" oninput="updateNeurons();" type="text" name="input" placeholder="...">
+    <div>
+        <input id="input_letters" oninput="updateNeurons();" type="text" name="input" placeholder="...">
+        <button>Top</button>
+    </div>
     <div>
         <svg id="network" width="475" height="600"></svg>
     </div>
@@ -292,7 +295,6 @@
             const b = Math.min(255, Math.max(0, Math.floor(255 * middle_output[i])));
             neuron.style.fill = `rgb(0,0,${b})`;
         }
-
     }
     function activateOutputNeurons() {
         const predicted_ch = predict_letter();
