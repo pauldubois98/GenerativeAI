@@ -42,27 +42,27 @@
     <g
        id="path3841">
       <path
-         style="color:#000000;fill:#000000;stroke-width:0.4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:8;-inkscape-stroke:none;paint-order:markers fill stroke"
-         d="m 1.5,1.5 h 7"
-         id="path4829" />
+         style="color:#000000;fill:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:8;-inkscape-stroke:none;paint-order:markers fill stroke"
+         d="M 0.97083333,0.65831735 H 9.0291667"
+         id="path6332" />
       <path
          style="color:#000000;fill:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:8;-inkscape-stroke:none;paint-order:markers fill stroke"
-         d="M 1.5,1.3007812 A 0.2,0.2 0 0 0 1.3007812,1.5 0.2,0.2 0 0 0 1.5,1.6992187 h 7 A 0.2,0.2 0 0 0 8.6992188,1.5 0.2,0.2 0 0 0 8.5,1.3007812 Z"
-         id="path4831" />
+         d="m 0.97070313,0.15820312 a 0.5,0.5 0 0 0 -0.5,0.5 0.5,0.5 0 0 0 0.5,0.49999998 H 9.0292969 a 0.5,0.5 0 0 0 0.5,-0.49999998 0.5,0.5 0 0 0 -0.5,-0.5 z"
+         id="path6334" />
     </g>
     <g
        id="path3843">
       <g
-         id="g4082">
+         id="g6342">
         <path
            style="color:#000000;fill:#000000;stroke-linecap:round;-inkscape-stroke:none"
-           d="M 5,2.1171875 3.6582031,3.4589844 a 0.2,0.2 0 0 0 0,0.2832031 0.2,0.2 0 0 0 0.2832032,0 L 5,2.6835938 6.0585937,3.7421875 a 0.2,0.2 0 0 0 0.2832032,0 0.2,0.2 0 0 0 0,-0.2832031 z"
-           id="path4084" />
+           d="M 5,1.3085937 1.6464844,4.6621094 a 0.5,0.5 0 0 0 0,0.7070312 0.5,0.5 0 0 0 0.7070312,0 L 5,2.7226563 7.6464844,5.3691406 a 0.5,0.5 0 0 0 0.7070312,0 0.5,0.5 0 0 0 0,-0.7070312 z"
+           id="path6344" />
       </g>
       <path
          style="color:#000000;fill:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:8;-inkscape-stroke:none;paint-order:markers fill stroke"
-         d="M 5,2.3007813 A 0.2,0.2 0 0 0 4.8007812,2.5 v 6 A 0.2,0.2 0 0 0 5,8.6992188 0.2,0.2 0 0 0 5.1992187,8.5 v -6 A 0.2,0.2 0 0 0 5,2.3007813 Z"
-         id="path4090" />
+         d="m 5,1.765625 a 0.5,0.5 0 0 0 -0.5,0.5 v 7.0585938 a 0.5,0.5 0 0 0 0.5,0.5 0.5,0.5 0 0 0 0.5,-0.5 V 2.265625 a 0.5,0.5 0 0 0 -0.5,-0.5 z"
+         id="path6350" />
     </g>
   </g>
 </svg>
