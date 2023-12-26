@@ -87,6 +87,10 @@
         #loading_img {
             width: 20em;
         }
+
+        .icon {
+            height: 1.5em;
+        }
     </style>
 
 </head>
@@ -105,13 +109,13 @@
         <input id='max_epochs' type="number" min="0" max="100" value="10" onchange="recursive_train_timeout();">
         <label id='max_epochs_label' for="max_epochs">Epochs</label>
         <button id="reset_model_button" onclick="reset_model(); recursive_train_timeout();">
-            <img alt="reset" src="icons/reset.svg" style="height: 1.5em;">
+            <img alt="reset" src="icons/reset.svg" class="icon">
         </button>
     </div>
     <div>
         <input id="input_letters" oninput="updateNeurons();" type="text" name="input" placeholder="...">
-        <button onclick="top_letter();"><img alt="Top" src="icons/top.svg" style="height: 1.5em;"></button>
-        <button onclick="random_letter();"><img alt="Random" src="icons/hist.svg" style="height: 1.5em;"></button>
+        <button onclick="top_letter();"><img alt="Top" src="icons/top.svg" class="icon"></button>
+        <button onclick="random_letter();"><img alt="Random" src="icons/hist.svg" class="icon"></button>
     </div>
     <div>
         <svg id="network" width="475" height="600"></svg>
