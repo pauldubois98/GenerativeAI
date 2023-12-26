@@ -493,6 +493,7 @@
         // drop logs & reset EPOCH
         document.getElementById("logs").innerText = '';
         EPOCH = 0;
+        updateNeurons();
     }
     function top_letter() {
         const raw_input = ' '.repeat(N_LETTERS) + document.getElementById("input_letters").value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
