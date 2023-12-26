@@ -121,19 +121,23 @@
     </div>
     <h1>Futur Letters</h1>
     <div id="training_settings">
-        <input id="training_on" type="checkbox" onchange="recursive_train_timeout()">
+        <input id="training_on" type="checkbox" onchange="recursive_train_timeout();">
         <label id="training_on_label" for="training_on">Training</label>
         <input id='max_epochs' type="number" min="0" max="100" value="10" onchange="recursive_train_timeout();">
         <label id='max_epochs_label' for="max_epochs">Epochs</label>
-        <button id="reset_model_button" onclick="reset_model(); recursive_train_timeout();">
+        <button id="reset_model_button" onclick="reset_model(); recursive_train_timeout();"
+            title="Reset model's weights">
             <img alt="reset" src="icons/reset.svg" class="icon">
         </button>
     </div>
     <div id="input_controls">
         <input id="input_letters" oninput="updateNeurons();" type="text" name="input" placeholder="...">
-        <button onclick="top_letter();"><img alt="Top" src="icons/top.svg" class="icon"></button>
-        <button onclick="random_letter();"><img alt="Random" src="icons/hist.svg" class="icon"></button>
-        <button onclick="empty_input();"><img alt="Empty" src="icons/cross.svg" class="icon"></button>
+        <button onclick="top_letter();"><img alt="Top" src="icons/top.svg" class="icon"
+                title="Top predicted letter"></button>
+        <button onclick="random_letter();"><img alt="Random" src="icons/hist.svg" class="icon"
+                title="Random predicted proportional letter"></button>
+        <button onclick="empty_input();"><img alt="Empty" src="icons/cross.svg" class="icon"
+                title="Empty input"></button>
     </div>
     <div>
         <svg id="network" width="475" height="600"></svg>
