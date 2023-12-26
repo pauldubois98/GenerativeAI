@@ -395,11 +395,21 @@
         const top_middle_indices = top_middle_output.indices.dataSync();
         const top_middle_values = top_middle_output.values.dataSync();
         var positions = [];
+        var max_value = 0;
+        var max_index = 0;
         for (let i = 0; i < top_middle_indices.length; i++) {
             const neuron = document.getElementById(`neuron${i}`);
             if (top_middle_values[i] > 0.5) {
                 positions.push([neuron.cx.animVal.value, neuron.cy.animVal.value, top_middle_values[i]]);
             }
+            if (top_middle_values[i] > max_value) {
+                max_value = top_middle_values[i];
+                max_index = i;
+            }
+        }
+        if (positions.length == 0) {
+            const neuron = document.getElementById(`neuron${max_index}`);
+            positions.push([neuron.cx.animVal.value, neuron.cy.animVal.value, max_value]);
         }
         const predicted_ch = predict_letter();
         var out = '';
@@ -409,7 +419,7 @@
         const v1 = 1;
         for (let j = 0; j < positions.length; j++) {
             const [x2, y2, v2] = positions[j];
-            out += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" style="stroke:rgb(100,100,100);stroke-width:${v2}" />`;
+            out += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" style="stroke:rgb(100,100,100);stroke-width:${Math.max(v2, 0.1)}" />`;
         }
         document.getElementById("end_connexions").innerHTML = out;
     }
