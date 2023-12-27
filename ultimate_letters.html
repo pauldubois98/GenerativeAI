@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ultimate Letters</title>
+    <style>
+        @keyframes rotate360 {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(-360deg);
+            }
+        }
+
+        .rotate {
+            animation: 2s rotate360 infinite linear;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 0;
+        }
+
+        #network_settings {
+            /* margin-bottom: 1.5em; */
+            border: gray dotted 2px;
+            padding: 0em 1em 0.5em 1em;
+            margin-top: -2px;
+        }
+
+        #N_LETTERS {
+            width: 3em;
+        }
+
+        #N_NEURONS {
+            width: 3em;
+            margin-left: 2em;
+        }
+
+        #input_letters {
+            margin: 0.5em 0em;
+        }
+
+        #network {
+            border: 1px solid black;
+        }
+
+        #network text {
+            user-select: none;
+        }
+
+        #alphabet_line_0 {
+            cursor: pointer;
+        }
+
+        #training_settings {
+            margin-top: 0.5em;
+            margin-bottom: 1.5em;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        #max_epochs {
+            width: 3em;
+            margin-left: 2em;
+            margin-right: 0.25em;
+        }
+
+        #reset_model_button {
+            margin-left: 3em;
+        }
+
+        #input_controls {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        #input_letters {
+            font-size: 1.3em;
+        }
+
+        #loading_div {
+            display: none;
+            position: absolute;
+            margin: auto;
+            top: 26em;
+        }
+
+        #loading_img {
+            width: 20em;
+        }
+
+        button {
+            display: flex;
+            height: 2.2em;
+            width: 2.8em;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon {
+            height: 1.9em;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="network_settings">
+        <input id="N_LETTERS" type="number" min="1" max="10" value="3" onchange="init();">
+        <label id="N_LETTERS_label" for="N_LETTERS">Letters</label>
+        <input id="N_NEURONS" type="number" min="1" max="100" value="30" onchange="init();">
+        <label id="N_NEURONS_label" for="N_NEURONS">Neurons</label>
+    </div>
+    <h1>Ultimate Letters</h1>
+    <div id="training_settings">
+        <input id="training_on" type="checkbox" onchange="recursive_train_timeout();">
+        <label id="training_on_label" for="training_on">Training</label>
+        <input id='max_epochs' type="number" min="0" max="100" value="10" onchange="recursive_train_timeout();">
+        <label id='max_epochs_label' for="max_epochs">Epochs</label>
+        <button id="reset_model_button" onclick="reset_model(); recursive_train_timeout();"
+            title="Reset model's weights">
+            <img alt="reset" src="icons/reset.svg" class="icon">
+        </button>
+    </div>
+    <div id="input_controls">
+        <input id="input_letters" oninput="updateNeurons();" type="text" name="input" placeholder="...">
+        <button onclick="top_letter();">
+            <img alt="Top" src="icons/top.svg" class="icon" title="Top predicted letter">
+        </button>
+        <button onclick="random_letter();">
+            <img alt="Random" src="icons/hist.svg" class="icon" title="Random predicted proportional letter">
+        </button>
+        <button onclick="empty_input();">
+            <img alt="Empty" src="icons/cross.svg" class="icon" title="Empty input">
+        </button>
+    </div>
+    <div>
+        <svg id="network" width="475" height="600"></svg>
+    </div>
+    <div id="logs"></div>
+    <div id="loading_div"><img id="loading_img" src="icons/loading_bis.svg" alt="Loading..." class="rotate"></div>
+</body>
+<!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"> </script> -->
+<script src="tfjs.js"></script>
+<script src="data/mots_extended.js"></script>
+<script src="data/words_extended.js"></script>
+<script src="data/alphabet200.js"></script>
+<script src="data/toto.js"></script>
+<script>
+    const ALPHABET = 'abcdefghijklmnopqrstuvwxyz-*';
+    var N_LETTERS = 3;
+    var LAYERS = [25, 25]
+    var EPOCH = 0;
+    var model = tf.sequential();
+    var train_xs;
+    var train_ys;
+    var train_letters;
+    var train_dataset;
+    var data;
+    var training_on_going = false;
+
+    // load get params
+    let params = new URLSearchParams(document.location.search);
+    // language
+    var WORDS_LIST;
+    if (document.location.search != "" && params.has("language") && params.get("language") == "fr") {
+        WORDS_LIST = MOTS;
+        train_dataset = "mots";
+        document.getElementsByTagName('h1')[0].innerText = 'Lettres Ultimes';
+        document.getElementById('training_on_label').innerText = 'Entrainement';
+        document.getElementById('max_epochs_label').innerText = 'Époques';
+        document.getElementById('N_LETTERS_label').innerText = 'Lettres';
+        document.getElementById('N_NEURONS_label').innerText = 'Neurones';
+    } else if (document.location.search != "" && params.has("language") && params.get("language") == "en") {
+        WORDS_LIST = WORDS;
+        train_dataset = "words";
+        document.getElementsByTagName('h1')[0].innerText = 'Ultimate Letters';
+        document.getElementById('training_on_label').innerText = 'Training';
+        document.getElementById('max_epochs_label').innerText = 'Epochs';
+        document.getElementById('N_LETTERS_label').innerText = 'Letters';
+        document.getElementById('N_NEURONS_label').innerText = 'Neurons';
+    } else {
+        // default to english
+        WORDS_LIST = WORDS;
+        train_dataset = "words";
+    }
+    // data
+    if (document.location.search != "" && params.has("data") && params.get("data") == "test") {
+        WORDS_LIST = TEST;
+        train_dataset = "test";
+    } else if (document.location.search != "" && params.has("data") && params.get("data") == "toto") {
+        WORDS_LIST = TOTO;
+        train_dataset = "toto";
+    } else {
+        // keep normal words list
+    }
+    // N_LETTERS
+    if (document.location.search != "" && params.has("N_LETTERS")) {
+        N_LETTERS = Number(params.get("N_LETTERS"));
+        document.getElementById("N_LETTERS").value = N_LETTERS;
+    } else {
+        // keep default value
+    }
+
+
+    function letter_neuron(x, y, letter, suffix) {
+        var out = '';
+        out += `<circle id="${letter}${suffix}_circle" cx="${x}" cy="${y}" r="7.5" style="fill:none;stroke:#000000;stroke-width:1;" />`;
+        out += `<text id="${letter}${suffix}" x="${x}" y="${y + 4.5}" style="font: size 14px;font-family:Arial;font-weight:bold;text-anchor:middle;fill:#000000;fill-opacity:1">${letter}</text>`;
+        return out;
+    }
+    function alphabet_line(y, suffix = '') {
+        network_svg = document.getElementById("network");
+        var out = `<g id="alphabet_line_${suffix}">`;
+        const dx = network_svg.width.animVal.value / ALPHABET.length;
+        var x = dx / 2;
+        for (const letter of ALPHABET) {
+            out += letter_neuron(x, y, letter, suffix);
+            x += dx;
+        }
+        out += '</g>';
+        network_svg.innerHTML += out;
+    }
+    function normal_neuron(x, y, name) {
+        const out = `<circle id="${name}" cx="${x}" cy="${y}" r="8" style="fill:#000000;fill-opacity:1;" />`;
+        return out;
+    }
+    function layer_neurons(y, n, suffix = '') {
+        network_svg = document.getElementById("network");
+        var out = `<g id="layer_${suffix}">`;
+        const dx = network_svg.width.animVal.value / n;
+        var x = dx / 2;
+        for (var i = 0; i < n; i++) {
+            out += normal_neuron(x, y, `neuron${i}_layer_${suffix}`);
+            x += dx;
+        }
+        out += '</g>';
+        network_svg.innerHTML += out;
+    }
+    function draw_network() {
+        // empty network drawing
+        network_svg = document.getElementById("network");
+        network_svg.innerHTML = '<g id="primary_connexions"></g><g id="middle_connexions"></g><g id="end_connexions"></g>';
+        // alphabet input
+        var dy = Math.min(200 / N_LETTERS, 30);
+        var y = (N_LETTERS + 0.5) * dy;
+        for (var i = 1; i < N_LETTERS + 1; i++) {
+            alphabet_line(y - i * dy, i);
+        }
+        // hidden layers
+        dy = (550 - y) / (LAYERS.length + 1);
+        for (var i = 0; i < LAYERS.length; i++) {
+            layer_neurons(y + (i + 1) * dy, LAYERS[i], i);
+        }
+        // alphabet output
+        alphabet_line(580, '0');
+        // clickable alphabet output
+        for (const neuron of document.getElementById('alphabet_line_0').children) {
+            if (neuron.nodeName = 'circle') {
+                neuron.addEventListener('click', function () {
+                    document.getElementById("input_letters").value += neuron.id[0];
+                    updateNeurons();
+                });
+            }
+
+        }
+    }
+
+    function deactivateNeurons() {
+        for (const letter of ALPHABET) {
+            for (let i = 0; i <= N_LETTERS; i++) {
+                const neuron = document.getElementById(`${letter}${i}_circle`);
+                neuron.style.fill = '#fff';
+            }
+        }
+    }
+    function activateInputNeurons() {
+        const raw_input = document.getElementById("input_letters").value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        const n_input = Math.min(N_LETTERS, raw_input.length);
+        const letters_input = raw_input.slice(-n_input);
+        const network_svg = document.getElementById("network");
+        for (let i = 0; i < n_input; i++) {
+            const ch = letters_input[i];
+            const neuron = document.getElementById(`${ch}${n_input - i}_circle`);
+            if (neuron != null) {
+                neuron.style.fill = '#f00';
+            }
+        }
+    }
+    function activateMiddleNeurons() {
+        // const middle_output = predict_middle();
+        // for (let i = 0; i < middle_output.length; i++) {
+        //     const neuron = document.getElementById(`neuron${i}`);
+        //     const b = Math.min(255, Math.max(0, Math.floor(255 * middle_output[i])));
+        //     neuron.style.fill = `rgb(0,0,${b})`;
+        // }
+    }
+    function activateOutputNeurons() {
+        const predicted_ch = predict_letter();
+        const neuron = document.getElementById(`${predicted_ch}0_circle`);
+        neuron.style.fill = '#0f0';
+        const predicted_probabilities = predict();
+        const max_probabilities = Math.max(...predicted_probabilities);
+        for (let i = 0; i < predicted_probabilities.length; i++) {
+            const neuron = document.getElementById(`${ALPHABET[i]}0_circle`);
+            const g = Math.min(255, Math.max(0, Math.floor(255 * (predicted_probabilities[i] / max_probabilities))));
+            neuron.style.fill = `rgb(${255 - g},255,${255 - g})`;
+        }
+    }
+    function connectPrimaryNeurons() {
+        // var out = '';
+        // const middle_output = predict_middle();
+        // const top_middle_output = tf.topk(middle_output, Math.floor(Math.sqrt(N_NEURONS)));
+        // const top_middle_indices = top_middle_output.indices.dataSync();
+        // const top_middle_values = top_middle_output.values.dataSync();
+        // var positions = [];
+        // for (let i = 0; i < top_middle_indices.length; i++) {
+        //     const neuron = document.getElementById(`neuron${i}`);
+        //     if (top_middle_values[i] > 0.5) {
+        //         positions.push([neuron.cx.animVal.value, neuron.cy.animVal.value, top_middle_values[i]]);
+        //     }
+        // }
+        // const raw_input = document.getElementById("input_letters").value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        // const n_input = Math.min(N_LETTERS, raw_input.length);
+        // const letters_input = raw_input.slice(-n_input);
+        // const network_svg = document.getElementById("network");
+        // for (let i = 0; i < n_input; i++) {
+        //     const ch = letters_input[i];
+        //     const neuron = document.getElementById(`${ch}${n_input - i}_circle`);
+        //     if (neuron != null) {
+        //         const x1 = neuron.cx.animVal.value;
+        //         const y1 = neuron.cy.animVal.value;
+        //         const v1 = 1;
+        //         for (let j = 0; j < positions.length; j++) {
+        //             const [x2, y2, v2] = positions[j];
+        //             out += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" style="stroke:rgb(100,100,100);stroke-width:${v2}" />`;
+        //         }
+        //     }
+        // }
+        // document.getElementById("primary_connexions").innerHTML = out;
+    }
+    function connectMiddleNeurons() {
+        // const middle_output = predict_middle();
+        // var positions = [];
+        // for (let i = 0; i < middle_output.length; i++) {
+        //     const neuron = document.getElementById(`neuron${i}`);
+        //     if (middle_output[i] > 0.5) {
+        //         positions.push([neuron.cx.animVal.value, neuron.cy.animVal.value, middle_output[i]]);
+        //     }
+        // }
+        // var out = '';
+        // for (let i = 0; i < positions.length; i++) {
+        //     const [x1, y1, v1] = positions[i];
+        //     for (let j = i + 1; j < positions.length; j++) {
+        //         const [x2, y2, v2] = positions[j];
+        //         out += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" style="stroke:rgb(100,100,100);stroke-width:${(v1 + v2) * 0.6}" />`;
+        //     }
+        // }
+        // document.getElementById("middle_connexions").innerHTML = out;
+    }
+    function connectLastNeuron() {
+        // const middle_output = predict_middle();
+        // const top_middle_output = tf.topk(middle_output, Math.floor(Math.sqrt(N_NEURONS)));
+        // const top_middle_indices = top_middle_output.indices.dataSync();
+        // const top_middle_values = top_middle_output.values.dataSync();
+        // var positions = [];
+        // var max_value = 0;
+        // var max_index = 0;
+        // for (let i = 0; i < top_middle_indices.length; i++) {
+        //     const neuron = document.getElementById(`neuron${i}`);
+        //     if (top_middle_values[i] > 0.5) {
+        //         positions.push([neuron.cx.animVal.value, neuron.cy.animVal.value, top_middle_values[i]]);
+        //     }
+        //     if (top_middle_values[i] > max_value) {
+        //         max_value = top_middle_values[i];
+        //         max_index = i;
+        //     }
+        // }
+        // if (positions.length == 0) {
+        //     const neuron = document.getElementById(`neuron${max_index}`);
+        //     positions.push([neuron.cx.animVal.value, neuron.cy.animVal.value, max_value]);
+        // }
+        // const predicted_ch = predict_letter();
+        // var out = '';
+        // const neuron = document.getElementById(`${predicted_ch}0_circle`);
+        // const x1 = neuron.cx.animVal.value;
+        // const y1 = neuron.cy.animVal.value;
+        // const v1 = 1;
+        // for (let j = 0; j < positions.length; j++) {
+        //     const [x2, y2, v2] = positions[j];
+        //     out += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" style="stroke:rgb(100,100,100);stroke-width:${Math.max(v2, 0.1)}" />`;
+        // }
+        // document.getElementById("end_connexions").innerHTML = out;
+    }
+    function updateNeurons() {
+        deactivateNeurons(); // reset all neurons
+
+        activateInputNeurons(); // activate input neurons
+        activateMiddleNeurons(); // activate middle neurons
+        activateOutputNeurons(); // activate output neurons
+
+        connectPrimaryNeurons(); // connect primary neurons
+        connectMiddleNeurons(); // connect middle neurons
+        connectLastNeuron(); // connect last neuron
+    }
+
+    function stringToTensor(s) {
+        var out_indices = [];
+        for (let i = 0; i < s.length; i++) {
+            const ch = s[i];
+            out_indices.push(ALPHABET.indexOf(ch));
+        }
+        const out_indices_tensor = tf.tensor1d(out_indices, 'int32');
+        const out_tensor = tf.oneHot(out_indices_tensor, ALPHABET.length).cast('float32');
+        return out_tensor;
+    }
+    function tensorToString(t) {
+        const indices = t.argMax(-1).dataSync();
+        var out = '';
+        for (let i = 0; i < indices.length; i++) {
+            const index = indices[i];
+            out += ALPHABET[index];
+        }
+        return out;
+    }
+    function predict_letter() {
+        const raw_input = ' '.repeat(N_LETTERS) + document.getElementById("input_letters").value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        const n_input = Math.min(N_LETTERS, raw_input.length);
+        const letters_input = raw_input.slice(-n_input);
+        const input_tensor = stringToTensor(letters_input).reshape([1, N_LETTERS * ALPHABET.length]);
+        const output_tensor = model.predict(input_tensor);
+        const output_string = tensorToString(output_tensor);
+        return output_string;
+    }
+    function predict() {
+        const raw_input = ' '.repeat(N_LETTERS) + document.getElementById("input_letters").value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        const n_input = Math.min(N_LETTERS, raw_input.length);
+        const letters_input = raw_input.slice(-n_input);
+        const input_tensor = stringToTensor(letters_input).reshape([1, N_LETTERS * ALPHABET.length]);
+        const output_tensor = model.predict(input_tensor);
+        return output_tensor.dataSync();
+    }
+    function predict_middle() {
+        // const raw_input = ' '.repeat(N_LETTERS) + document.getElementById("input_letters").value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        // const n_input = Math.min(N_LETTERS, raw_input.length);
+        // const letters_input = raw_input.slice(-n_input);
+        // const input_tensor = stringToTensor(letters_input).reshape([1, N_LETTERS * ALPHABET.length]);
+        // const output_tensor = model_middle.predict(input_tensor);
+        // return output_tensor.dataSync();
+    }
+    function reset_model() {
+        // drop all layers
+        model = tf.sequential();
+        // add new layers
+        model.add(tf.layers.dense({ units: N_NEURONS, inputShape: [N_LETTERS * ALPHABET.length], activation: 'relu' }));
+        model.add(tf.layers.dense({ units: ALPHABET.length, biasInitializer: "randomNormal" }));
+        model.add(tf.layers.softmax());
+        model.compile({ loss: 'meanSquaredError', optimizer: tf.train.adam(0.001) });
+        // middle layer model
+        // model_middle = tf.sequential();
+        // model_middle.add(model.layers[0]);
+        // drop logs & reset EPOCH
+        document.getElementById("logs").innerText = '';
+        EPOCH = 0;
+        updateNeurons();
+    }
+    function top_letter() {
+        const raw_input = ' '.repeat(N_LETTERS) + document.getElementById("input_letters").value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        const last_letter = raw_input[raw_input.length - 1];
+        if (last_letter == undefined || last_letter != '*') {
+            const predicted_ch = predict_letter();
+            document.getElementById("input_letters").value += predicted_ch;
+            updateNeurons();
+        }
+    }
+    function random_letter() {
+        const raw_input = ' '.repeat(N_LETTERS) + document.getElementById("input_letters").value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        const last_letter = raw_input[raw_input.length - 1];
+        if (last_letter == undefined || last_letter != '*') {
+            const predicted_probabilities = predict();
+            const r = Math.random();
+            var s = 0;
+            var i = 0
+            while (s < r) {
+                s += predicted_probabilities[i];
+                i++;
+            }
+            const predicted_ch = ALPHABET[i - 1];
+            document.getElementById("input_letters").value += predicted_ch;
+            updateNeurons();
+        }
+    }
+    function empty_input() {
+        document.getElementById("input_letters").value = '';
+        updateNeurons();
+    }
+
+    async function create_training_data(force = false) {
+        if (!force && train_xs != undefined && train_ys != undefined && train_letters == N_LETTERS) {
+            return [train_xs, train_ys];
+        }
+        console.log('Creating training data');
+        var xs = [];
+        var ys = [];
+        for (let k = 0; k < WORDS_LIST.length; k++) {
+            const word = ' '.repeat(N_LETTERS) + WORDS_LIST[k];
+            var i = 0;
+            while (i + N_LETTERS < word.length) {
+                const sub_word = word.slice(i, i + N_LETTERS)
+                var sub_word_indices = [];
+                for (let j = 0; j < sub_word.length; j++) {
+                    const ch = sub_word[j];
+                    sub_word_indices.push(ALPHABET.indexOf(ch));
+                }
+                xs.push(sub_word_indices);
+                ys.push(ALPHABET.indexOf(word[i + N_LETTERS]));
+                i++;
+            }
+        }
+        const xs_tensor_indices = tf.tensor2d(xs, [xs.length, N_LETTERS], 'int32');
+        const xs_tensor = tf.oneHot(xs_tensor_indices, ALPHABET.length).cast('float32').reshape([xs.length, N_LETTERS * ALPHABET.length]);
+        const ys_tensor = tf.oneHot(tf.tensor1d(ys, 'int32'), ALPHABET.length).cast('float32');
+        train_xs = xs_tensor;
+        train_ys = ys_tensor;
+        train_letters = N_LETTERS;
+        return [xs_tensor, ys_tensor];
+    }
+    function test() {
+        // predict for each item in training data
+        const ys_tensor = model.predict(train_xs);
+        const ys = ys_tensor.argMax(-1).dataSync();
+        const true_ys = train_ys.argMax(-1).dataSync();
+        var n_correct = 0;
+        for (let i = 0; i < ys.length; i++) {
+            if (ys[i] == true_ys[i]) {
+                n_correct++;
+            }
+        }
+        // console.log('Test', n_correct, ys.length);
+        // console.log(ys, true_ys);
+        return n_correct / ys.length;
+    }
+    function log_epoch(t) {
+        console.log('Epoch', EPOCH, t * 100, '%');
+        var out = '';
+        out += document.getElementById('max_epochs_label').innerText.slice(0, document.getElementById('max_epochs_label').innerText.length - 1);
+        out += ' ' + EPOCH + ': ' + Math.round(t * 10000) / 100 + '% \n';
+        document.getElementById("logs").innerText += out;
+    }
+    function init() {
+        N_LETTERS = Number(document.getElementById("N_LETTERS").value);
+        N_NEURONS = Number(document.getElementById("N_NEURONS").value);
+        EPOCH = 0;
+        draw_network();
+        reset_model();
+        updateNeurons();
+        setTimeout(() => {
+            recursive_train_timeout();
+        }, 100);
+    }
+    onload = init;
+
+    async function recursive_train_timeout(t = 50) {
+        if (training_on_going) {
+            return;
+        }
+        if (document.getElementById("training_on").checked && EPOCH <= Number(document.getElementById("max_epochs").value)) {
+            document.getElementById("loading_div").style.display = 'block';
+            training_on_going = true;
+            setTimeout(async () => {
+                await train();
+                training_on_going = false;
+                recursive_train_timeout(t = 50);
+            }, t);
+        } else {
+            document.getElementById("loading_div").style.display = 'none';
+            training_on_going = false;
+        }
+    }
+    async function train() {
+        if (document.getElementById("training_on").checked && EPOCH <= Number(document.getElementById("max_epochs").value)) {
+            if (EPOCH == 0) {
+                await create_training_data();
+                const t = test();
+                log_epoch(t);
+                EPOCH++;
+            } else {
+                await model.fit(train_xs, train_ys, { epochs: 1 })
+                const t = test();
+                log_epoch(t);
+                updateNeurons();
+                EPOCH++;
+            }
+
+        }
+    }
+
+</script>
+
+</html>
