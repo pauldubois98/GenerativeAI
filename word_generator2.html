@@ -33,6 +33,13 @@
         button {
             margin: 1em;
             font-size: 1.6em;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        button img {
+            width: 4em;
         }
     </style>
 </head>
@@ -40,7 +47,9 @@
 <body>
     <h1>Word Generator</h1>
     <h2>II</h2>
-    <button onclick="generate()">Genrate</button>
+    <button onclick="generate()">
+        <img src="icons/generate.svg" alt="Generate">
+    </button>
     <h3>...</h3>
 </body>
 <script src="data/words_stats.js"></script>
