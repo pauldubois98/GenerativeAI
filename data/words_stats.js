@@ -33,8 +33,6 @@ const WORDS_LETTERS_FREQUENCIES_TOTAL = 78019;
 
 const WORDS_LENGTHS = [
 	0,
-	0,
-	0,
 	15,
 	54,
 	247,
@@ -57,6 +55,8 @@ const WORDS_LENGTHS = [
 	0,
 	1,
 	2,
+	0,
+	0,
 	0,
 	0,
 	0,

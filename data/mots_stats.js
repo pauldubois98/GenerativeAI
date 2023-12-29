@@ -34,8 +34,6 @@ const MOTS_LETTERS_FREQUENCIES_TOTAL = 177523;
 const MOTS_LENGTHS = [
 	0,
 	0,
-	0,
-	0,
 	53,
 	323,
 	929,
@@ -58,6 +56,8 @@ const MOTS_LENGTHS = [
 	1,
 	0,
 	1,
+	0,
+	0,
 	0,
 	0,
 	0,
