@@ -3065,7 +3065,6 @@ const MOTS = [
 	'^bruxelles*',
 	'^bruxellois*',
 	'^bruyant*',
-	'^bsn*',
 	'^bu*',
 	'^buanderie*',
 	'^bucarest*',
