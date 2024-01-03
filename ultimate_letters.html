@@ -468,13 +468,13 @@
         // drop all layers
         model = tf.sequential();
         // add new layers
-        model.add(tf.layers.dense({ units: N_NEURONS, inputShape: [N_LETTERS * ALPHABET.length], activation: 'relu' }));
+        model.add(tf.layers.dense({ units: LAYERS[0], inputShape: [N_LETTERS * ALPHABET.length], activation: 'relu' }));
+        for (let i = 1; i < LAYERS.length; i++) {
+            model.add(tf.layers.dense({ units: LAYERS[i], activation: 'relu' }));
+        }
         model.add(tf.layers.dense({ units: ALPHABET.length, biasInitializer: "randomNormal" }));
         model.add(tf.layers.softmax());
         model.compile({ loss: 'meanSquaredError', optimizer: tf.train.adam(0.001) });
-        // middle layer model
-        // model_middle = tf.sequential();
-        // model_middle.add(model.layers[0]);
         // drop logs & reset EPOCH
         document.getElementById("logs").innerText = '';
         EPOCH = 0;
