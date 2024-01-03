@@ -45,6 +45,7 @@
     function draw(e) {
         if (!isDrawing) return;
         context.strokeStyle = "black";
+        context.lineWidth = 3;
         // context.strokeStyle = `hsl(${hue}, 100%, 50%)`;
         context.beginPath();
         context.moveTo(lastX, lastY);
