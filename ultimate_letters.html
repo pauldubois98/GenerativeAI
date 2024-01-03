@@ -163,6 +163,7 @@
     var LAYERS = []
     var EPOCH = 0;
     var model = tf.sequential();
+    var model_middle = [];
     var train_xs;
     var train_ys;
     var train_letters;
@@ -452,12 +453,16 @@
         return output_tensor.dataSync();
     }
     function predict_middle() {
-        // const raw_input = ' '.repeat(N_LETTERS) + document.getElementById("input_letters").value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-        // const n_input = Math.min(N_LETTERS, raw_input.length);
-        // const letters_input = raw_input.slice(-n_input);
-        // const input_tensor = stringToTensor(letters_input).reshape([1, N_LETTERS * ALPHABET.length]);
-        // const output_tensor = model_middle.predict(input_tensor);
-        // return output_tensor.dataSync();
+        var out = [];
+        const raw_input = ' '.repeat(N_LETTERS) + document.getElementById("input_letters").value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        const n_input = Math.min(N_LETTERS, raw_input.length);
+        const letters_input = raw_input.slice(-n_input);
+        const input_tensor = stringToTensor(letters_input).reshape([1, N_LETTERS * ALPHABET.length]);
+        for (let i = 0; i < LAYERS.length; i++) {
+            const output_tensor = model_middle[i].predict(input_tensor);
+            out.push(output_tensor.dataSync());
+        }
+        return out;
     }
     function reset_model() {
         // drop all layers
@@ -470,6 +475,15 @@
         model.add(tf.layers.dense({ units: ALPHABET.length, biasInitializer: "randomNormal" }));
         model.add(tf.layers.softmax());
         model.compile({ loss: 'meanSquaredError', optimizer: tf.train.adam(0.001) });
+        // middle models
+        model_middle = [];
+        for (let i = 1; i < LAYERS.length + 1; i++) {
+            const m = tf.sequential();
+            for (let j = 0; j < i; j++) {
+                m.add(model.layers[j]);
+            }
+            model_middle.push(m);
+        }
         // drop logs & reset EPOCH
         document.getElementById("logs").innerText = '';
         EPOCH = 0;
