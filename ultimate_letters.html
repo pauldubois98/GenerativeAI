@@ -37,9 +37,10 @@
             width: 3em;
         }
 
-        #N_NEURONS {
+        input[type=number] {
             width: 3em;
             margin-left: 2em;
+            margin-right: 0.25em;
         }
 
         #input_letters {
@@ -116,14 +117,20 @@
     <div id="network_settings">
         <input id="N_LETTERS" type="number" min="1" max="10" value="3" onchange="init();">
         <label id="N_LETTERS_label" for="N_LETTERS">Letters</label>
-        <input id="N_NEURONS" type="number" min="1" max="100" value="30" onchange="init();">
-        <label id="N_NEURONS_label" for="N_NEURONS">Neurons</label>
+        <input id="N_LAYERS" type="number" min="1" max="5" value="2" onchange="init0();">
+        <label id="N_LAYERS_label" for="N_LAYERS">Layers</label>
+    </div>
+    <div id="network_settings_bis">
+        <input id="N_LETTERS" type="number" min="1" max="10" value="3" onchange="init();">
+        <label id="N_LETTERS_label" for="N_LETTERS">Letters</label>
+        <input id="N_LAYERS" type="number" min="1" max="5" value="2" onchange="init();">
+        <label id="N_LAYERS_label" for="N_LAYERS">Layers</label>
     </div>
     <h1>Ultimate Letters</h1>
     <div id="training_settings">
         <input id="training_on" type="checkbox" onchange="recursive_train_timeout();">
         <label id="training_on_label" for="training_on">Training</label>
-        <input id='max_epochs' type="number" min="0" max="100" value="10" onchange="recursive_train_timeout();">
+        <input id='max_epochs' type="number" min="0" max="100" value="1" onchange="recursive_train_timeout();">
         <label id='max_epochs_label' for="max_epochs">Epochs</label>
         <button id="reset_model_button" onclick="reset_model(); recursive_train_timeout();"
             title="Reset model's weights">
@@ -157,6 +164,7 @@
 <script>
     const ALPHABET = 'abcdefghijklmnopqrstuvwxyz-*';
     var N_LETTERS = 3;
+    var N_LAYERS = 2;
     var LAYERS = [25, 25]
     var EPOCH = 0;
     var model = tf.sequential();
@@ -555,9 +563,31 @@
         out += ' ' + EPOCH + ': ' + Math.round(t * 10000) / 100 + '% \n';
         document.getElementById("logs").innerText += out;
     }
+    function init0() {
+        N_LAYERS = Number(document.getElementById("N_LAYERS").value);
+        if (N_LAYERS > LAYERS.length) {
+            for (let i = LAYERS.length; i < N_LAYERS; i++) {
+                LAYERS.push(25);
+            }
+        } else if (N_LAYERS < LAYERS.length) {
+            LAYERS = LAYERS.slice(0, N_LAYERS);
+        }
+        var layers_input = document.getElementById("network_settings_bis");
+        var out = '';
+        for (let i = 0; i < N_LAYERS; i++) {
+            out += `<input id="N_NEURONS${i}" type="number" min="1" max="50" value="${LAYERS[i]}" onchange="init();">`;
+            out += `<label id="N_NEURONS${i}_label" for="N_NEURONS${i}">Neurons ${i}</label><br>`;
+        }
+        layers_input.innerHTML = out;
+        init();
+    }
+
     function init() {
         N_LETTERS = Number(document.getElementById("N_LETTERS").value);
-        N_NEURONS = Number(document.getElementById("N_NEURONS").value);
+        LAYERS = [];
+        for (let i = 0; i < N_LAYERS; i++) {
+            LAYERS.push(Number(document.getElementById(`N_NEURONS${i}`).value));
+        }
         EPOCH = 0;
         draw_network();
         reset_model();
@@ -566,7 +596,7 @@
             recursive_train_timeout();
         }, 100);
     }
-    onload = init;
+    onload = init0;
 
     async function recursive_train_timeout(t = 50) {
         if (training_on_going) {
