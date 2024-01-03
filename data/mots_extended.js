@@ -4041,7 +4041,6 @@ const MOTS = [
 	'^cinoche*',
 	'^cinq*',
 	'^cinqcents*',
-	'^cinqjours*',
 	'^cinquantaine*',
 	'^cinquante*',
 	'^cinquantenaire*',

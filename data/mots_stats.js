@@ -1,25 +1,25 @@
 const MOTS_LETTERS_FREQUENCIES = {
 	"a": 13988,
 	"b": 2769,
-	"c": 7378,
+	"c": 7377,
 	"d": 4263,
 	"e": 28659,
 	"f": 2477,
 	"g": 3032,
 	"h": 2151,
-	"i": 15723,
-	"j": 419,
+	"i": 15722,
+	"j": 418,
 	"k": 208,
 	"l": 7705,
 	"m": 5500,
-	"n": 13386,
-	"o": 10544,
+	"n": 13385,
+	"o": 10543,
 	"p": 5091,
-	"q": 1099,
-	"r": 15571,
-	"s": 12140,
+	"q": 1098,
+	"r": 15570,
+	"s": 12139,
 	"t": 13132,
-	"u": 7985,
+	"u": 7984,
 	"v": 2459,
 	"w": 72,
 	"x": 780,
@@ -29,7 +29,7 @@ const MOTS_LETTERS_FREQUENCIES = {
 	"^": 0,
 	"*": 0,
 };
-const MOTS_LETTERS_FREQUENCIES_TOTAL = 177520;
+const MOTS_LETTERS_FREQUENCIES_TOTAL = 177511;
 
 const MOTS_LENGTHS = [
 	0,
@@ -41,7 +41,7 @@ const MOTS_LENGTHS = [
 	2998,
 	3495,
 	3490,
-	2964,
+	2963,
 	2244,
 	1529,
 	936,
@@ -63,4 +63,4 @@ const MOTS_LENGTHS = [
 	0,
 	0,
 ];
-const MOTS_LENGTHS_TOTAL = 22013;
+const MOTS_LENGTHS_TOTAL = 22012;

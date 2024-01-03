@@ -4040,7 +4040,6 @@ cingler
 cinoche
 cinq
 cinqcents
-cinqjours
 cinquantaine
 cinquante
 cinquantenaire
