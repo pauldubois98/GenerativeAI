@@ -64,6 +64,11 @@
     canvas.addEventListener('pointermove', draw);
     canvas.addEventListener('pointerup', () => isDrawing = false);
     canvas.addEventListener('pointerout', () => isDrawing = false);
+
+    const resetButton = document.getElementById('reset_button');
+    resetButton.addEventListener('click', () => {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+    });
 </script>
 
 </html>
