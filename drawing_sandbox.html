@@ -45,6 +45,12 @@
         label {
             font-size: 1.5em;
         }
+
+        canvas {
+            margin: 1em;
+            border: 3px solid gray;
+            touch-action: none;
+        }
     </style>
 </head>
 
@@ -57,7 +63,7 @@
         <input id="color_checkbox" type="checkbox"></button>
         <label for="color_checkbox">Color</label>
     </div>
-    <canvas id="canvas" width="500" height="500" style="border: 1px solid black;"></canvas>
+    <canvas id="canvas" width="500" height="500"></canvas>
 </body>
 <script>
     const canvas = document.getElementById('canvas');
