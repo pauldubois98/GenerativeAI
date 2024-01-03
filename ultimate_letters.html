@@ -120,12 +120,7 @@
         <input id="N_LAYERS" type="number" min="1" max="5" value="2" onchange="init0();">
         <label id="N_LAYERS_label" for="N_LAYERS">Layers</label>
     </div>
-    <div id="network_settings_bis">
-        <input id="N_LETTERS" type="number" min="1" max="10" value="3" onchange="init();">
-        <label id="N_LETTERS_label" for="N_LETTERS">Letters</label>
-        <input id="N_LAYERS" type="number" min="1" max="5" value="2" onchange="init();">
-        <label id="N_LAYERS_label" for="N_LAYERS">Layers</label>
-    </div>
+    <div id="network_settings_bis"></div>
     <h1>Ultimate Letters</h1>
     <div id="training_settings">
         <input id="training_on" type="checkbox" onchange="recursive_train_timeout();">
@@ -165,7 +160,7 @@
     const ALPHABET = 'abcdefghijklmnopqrstuvwxyz-*';
     var N_LETTERS = 3;
     var N_LAYERS = 2;
-    var LAYERS = [25, 25]
+    var LAYERS = []
     var EPOCH = 0;
     var model = tf.sequential();
     var train_xs;
@@ -567,7 +562,7 @@
         N_LAYERS = Number(document.getElementById("N_LAYERS").value);
         if (N_LAYERS > LAYERS.length) {
             for (let i = LAYERS.length; i < N_LAYERS; i++) {
-                LAYERS.push(25);
+                LAYERS.push(30 - (5 * i));
             }
         } else if (N_LAYERS < LAYERS.length) {
             LAYERS = LAYERS.slice(0, N_LAYERS);
