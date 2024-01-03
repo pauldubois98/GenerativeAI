@@ -182,7 +182,7 @@
         document.getElementById('training_on_label').innerText = 'Entrainement';
         document.getElementById('max_epochs_label').innerText = 'Époques';
         document.getElementById('N_LETTERS_label').innerText = 'Lettres';
-        document.getElementById('N_NEURONS_label').innerText = 'Neurones';
+        document.getElementById('N_LAYERS_label').innerText = 'Couches';
     } else if (document.location.search != "" && params.has("language") && params.get("language") == "en") {
         WORDS_LIST = WORDS;
         train_dataset = "words";
@@ -190,7 +190,7 @@
         document.getElementById('training_on_label').innerText = 'Training';
         document.getElementById('max_epochs_label').innerText = 'Epochs';
         document.getElementById('N_LETTERS_label').innerText = 'Letters';
-        document.getElementById('N_NEURONS_label').innerText = 'Neurons';
+        document.getElementById('N_LAYERS_label').innerText = 'Layers';
     } else {
         // default to english
         WORDS_LIST = WORDS;
