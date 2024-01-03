@@ -326,36 +326,42 @@
         }
     }
     function connectPrimaryNeurons() {
-        // var out = '';
-        // const middle_output = predict_middle();
-        // const top_middle_output = tf.topk(middle_output, Math.floor(Math.sqrt(N_NEURONS)));
-        // const top_middle_indices = top_middle_output.indices.dataSync();
-        // const top_middle_values = top_middle_output.values.dataSync();
-        // var positions = [];
-        // for (let i = 0; i < top_middle_indices.length; i++) {
-        //     const neuron = document.getElementById(`neuron${i}`);
-        //     if (top_middle_values[i] > 0.5) {
-        //         positions.push([neuron.cx.animVal.value, neuron.cy.animVal.value, top_middle_values[i]]);
-        //     }
-        // }
-        // const raw_input = document.getElementById("input_letters").value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-        // const n_input = Math.min(N_LETTERS, raw_input.length);
-        // const letters_input = raw_input.slice(-n_input);
-        // const network_svg = document.getElementById("network");
-        // for (let i = 0; i < n_input; i++) {
-        //     const ch = letters_input[i];
-        //     const neuron = document.getElementById(`${ch}${n_input - i}_circle`);
-        //     if (neuron != null) {
-        //         const x1 = neuron.cx.animVal.value;
-        //         const y1 = neuron.cy.animVal.value;
-        //         const v1 = 1;
-        //         for (let j = 0; j < positions.length; j++) {
-        //             const [x2, y2, v2] = positions[j];
-        //             out += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" style="stroke:rgb(100,100,100);stroke-width:${v2}" />`;
-        //         }
-        //     }
-        // }
-        // document.getElementById("primary_connexions").innerHTML = out;
+        var out = '';
+        var middle_output0 = predict_middle()[0];
+        var top_middle_output = tf.topk(middle_output0, Math.floor(1 + Math.sqrt(LAYERS[0]) / 3));
+        var top_middle_indices = top_middle_output.indices.dataSync();
+        var top_middle_values = top_middle_output.values.dataSync();
+        var positions = [];
+        for (let i = 0; i < top_middle_indices.length; i++) {
+            const neuron = document.getElementById(`neuron${top_middle_indices[i]}_layer${0}`);
+            positions.push([neuron.cx.animVal.value, neuron.cy.animVal.value, top_middle_values[i]]);
+        }
+        top_middle_output = tf.topk(middle_output0.map((e) => -e), Math.floor(1 + Math.sqrt(LAYERS[0]) / 3));
+        top_middle_indices = top_middle_output.indices.dataSync();
+        top_middle_values = top_middle_output.values.dataSync();
+        for (let i = 0; i < top_middle_indices.length; i++) {
+            const neuron = document.getElementById(`neuron${top_middle_indices[i]}_layer${0}`);
+            positions.push([neuron.cx.animVal.value, neuron.cy.animVal.value, top_middle_values[i]]);
+        }
+        console.log(positions);
+        const raw_input = document.getElementById("input_letters").value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        const n_input = Math.min(N_LETTERS, raw_input.length);
+        const letters_input = raw_input.slice(-n_input);
+        const network_svg = document.getElementById("network");
+        for (let i = 0; i < n_input; i++) {
+            const ch = letters_input[i];
+            const neuron = document.getElementById(`${ch}${n_input - i}_circle`);
+            if (neuron != null) {
+                const x1 = neuron.cx.animVal.value;
+                const y1 = neuron.cy.animVal.value;
+                const v1 = 1;
+                for (let j = 0; j < positions.length; j++) {
+                    const [x2, y2, v2] = positions[j];
+                    out += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" style="stroke:rgb(100,100,100);stroke-width:${v2}" />`;
+                }
+            }
+        }
+        document.getElementById("primary_connexions").innerHTML = out;
     }
     function connectMiddleNeurons() {
         // const middle_output = predict_middle();
@@ -639,8 +645,8 @@
                 EPOCH++;
             } else {
                 await model.fit(train_xs, train_ys, { epochs: 1 })
-                for(let i = 0; i < model_middle.length; i++){
-                    for(let j = 0; j < model_middle[i].layers.length; j++){
+                for (let i = 0; i < model_middle.length; i++) {
+                    for (let j = 0; j < model_middle[i].layers.length; j++) {
                         model_middle[i].layers[j].setWeights(model.layers[j].getWeights());
                     }
                 }
