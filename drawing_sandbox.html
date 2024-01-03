@@ -20,13 +20,18 @@
         #reset_button {
             margin: 1em;
             margin-top: 2em;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
     </style>
 </head>
 
 <body>
     <h1>Drawing Sandbox</h1>
-    <button id="reset_button">Reset</button>
+    <button id="reset_button">
+        <img src="icons/cross.svg" alt="Reset" />
+    </button>
     <canvas id="canvas" width="500" height="500" style="border: 1px solid black;"></canvas>
 </body>
 <script>
