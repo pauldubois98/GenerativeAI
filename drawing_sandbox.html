@@ -64,6 +64,11 @@
         <label for="color_checkbox">Color</label>
     </div>
     <canvas id="canvas" width="500" height="500"></canvas>
+
+    <button id="help_button">help</button>
+    <div style="display:none;">
+        <img id="chick_help" src="images/chick_full.svg" height="500" />
+    </div>
 </body>
 <script>
     const canvas = document.getElementById('canvas');
@@ -103,6 +108,13 @@
     resetButton.addEventListener('click', () => {
         context.clearRect(0, 0, canvas.width, canvas.height);
     });
+
+    const helpButton = document.getElementById('help_button');
+    const chick_help_image = document.getElementById("chick_help");
+    helpButton.addEventListener('click', () => {
+        context.drawImage(chick_help_image, 50, 0, 400, 500)
+    });
+
 </script>
 
 </html>
