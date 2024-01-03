@@ -304,7 +304,12 @@
         for (let i = 0; i < LAYERS.length; i++) {
             for (let j = 0; j < LAYERS[i]; j++) {
                 const neuron = document.getElementById(`neuron${j}_layer${i}`);
-                const val = Math.min(255, Math.max(-255, Math.floor(255 * 10 * (middle_output[i][j] - 0.5))));
+                var val;
+                if (i == 0) {
+                    val = Math.min(255, Math.max(-255, Math.floor(255 * 10 * (middle_output[i][j] - 0.5))));
+                } else {
+                    val = Math.min(255, Math.max(-255, Math.floor(255 * 5 * (middle_output[i][j] - 0.5))));
+                }
                 if (val < 0) {
                     neuron.style.fill = `rgb(${-val},0,0)`;
                 } else {
@@ -363,23 +368,55 @@
         document.getElementById("primary_connexions").innerHTML = out;
     }
     function connectMiddleNeurons() {
-        // const middle_output = predict_middle();
-        // var positions = [];
-        // for (let i = 0; i < middle_output.length; i++) {
-        //     const neuron = document.getElementById(`neuron${i}`);
-        //     if (middle_output[i] > 0.5) {
-        //         positions.push([neuron.cx.animVal.value, neuron.cy.animVal.value, middle_output[i]]);
-        //     }
-        // }
-        // var out = '';
-        // for (let i = 0; i < positions.length; i++) {
-        //     const [x1, y1, v1] = positions[i];
-        //     for (let j = i + 1; j < positions.length; j++) {
-        //         const [x2, y2, v2] = positions[j];
-        //         out += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" style="stroke:rgb(100,100,100);stroke-width:${(v1 + v2) * 0.6}" />`;
-        //     }
-        // }
-        // document.getElementById("middle_connexions").innerHTML = out;
+        const middle_output = predict_middle();
+        var out = '';
+        for (let i = 1; i < LAYERS.length; i++) {
+            // start positions
+            const activation_start = middle_output[i - 1];
+            var positions_start = [];
+            var top_activation_start = tf.topk(activation_start, Math.floor(1 + Math.sqrt(LAYERS[i - 1]) / 4));
+            var top_activation_start_indices = top_activation_start.indices.dataSync();
+            var top_activation_start_values = top_activation_start.values.dataSync();
+            for (let j = 0; j < top_activation_start_indices.length; j++) {
+                const neuron = document.getElementById(`neuron${top_activation_start_indices[j]}_layer${i - 1}`);
+                positions_start.push([neuron.cx.animVal.value, neuron.cy.animVal.value, top_activation_start_values[j]]);
+            }
+            top_activation_start = tf.topk(activation_start.map((e) => -e), Math.floor(1 + Math.sqrt(LAYERS[i - 1]) / 4));
+            top_activation_start_indices = top_activation_start.indices.dataSync();
+            top_activation_start_values = top_activation_start.values.dataSync();
+            for (let j = 0; j < top_activation_start_indices.length; j++) {
+                const neuron = document.getElementById(`neuron${top_activation_start_indices[j]}_layer${i - 1}`);
+                positions_start.push([neuron.cx.animVal.value, neuron.cy.animVal.value, -top_activation_start_values[j]]);
+            }
+            // end positions
+            const activation_end = middle_output[i];
+            var positions_end = [];
+            var top_activation_end = tf.topk(activation_end, Math.floor(1 + Math.sqrt(LAYERS[i]) / 4));
+            var top_activation_end_indices = top_activation_end.indices.dataSync();
+            var top_activation_end_values = top_activation_end.values.dataSync();
+            for (let j = 0; j < top_activation_end_indices.length; j++) {
+                const neuron = document.getElementById(`neuron${top_activation_end_indices[j]}_layer${i}`);
+                positions_end.push([neuron.cx.animVal.value, neuron.cy.animVal.value, top_activation_end_values[j]]);
+            }
+            top_activation_end = tf.topk(activation_end.map((e) => -e), Math.floor(1 + Math.sqrt(LAYERS[i]) / 4));
+            top_activation_end_indices = top_activation_end.indices.dataSync();
+            top_activation_end_values = top_activation_end.values.dataSync();
+            for (let j = 0; j < top_activation_end_indices.length; j++) {
+                const neuron = document.getElementById(`neuron${top_activation_end_indices[j]}_layer${i}`);
+                positions_end.push([neuron.cx.animVal.value, neuron.cy.animVal.value, -top_activation_end_values[j]]);
+            }
+            // add html to out
+            for (let j = 0; j < positions_start.length; j++) {
+                const [x1, y1, v1] = positions_start[j];
+                for (let k = 0; k < positions_end.length; k++) {
+                    const [x2, y2, v2] = positions_end[k];
+                    out += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" style="stroke:rgb(100,100,100);stroke-width:${(v1 + v2) * 0.6}" />`;
+                }
+            }
+
+        }
+        // add html to page
+        document.getElementById("middle_connexions").innerHTML = out;
     }
     function connectLastNeuron() {
         var out = '';
