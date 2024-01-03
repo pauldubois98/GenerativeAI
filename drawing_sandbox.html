@@ -65,22 +65,25 @@
     var isDrawing = false;
     var lastX = 0;
     var lastY = 0;
-    // var hue = 0;
+    var hue = 0;
 
     function draw(e) {
         if (!isDrawing) return;
-        context.strokeStyle = "black";
         context.lineWidth = 3;
-        // context.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+        if (document.getElementById('color_checkbox').checked) {
+            context.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+            hue++;
+            if (hue >= 360) {
+                hue = 0;
+            }
+        } else {
+            context.strokeStyle = "black";
+        }
         context.beginPath();
         context.moveTo(lastX, lastY);
         context.lineTo(e.offsetX, e.offsetY);
         context.stroke();
         [lastX, lastY] = [e.offsetX, e.offsetY];
-        // hue++;
-        // if (hue >= 360) {
-        //     hue = 0;
-        // }
     }
     canvas.addEventListener('pointerdown', (e) => {
         isDrawing = true;
