@@ -243,7 +243,7 @@
         const dx = network_svg.width.animVal.value / n;
         var x = dx / 2;
         for (var i = 0; i < n; i++) {
-            out += normal_neuron(x, y, `neuron${i}_layer_${suffix}`);
+            out += normal_neuron(x, y, `neuron${i}_layer${suffix}`);
             x += dx;
         }
         out += '</g>';
@@ -300,12 +300,19 @@
         }
     }
     function activateMiddleNeurons() {
-        // const middle_output = predict_middle();
-        // for (let i = 0; i < middle_output.length; i++) {
-        //     const neuron = document.getElementById(`neuron${i}`);
-        //     const b = Math.min(255, Math.max(0, Math.floor(255 * middle_output[i])));
-        //     neuron.style.fill = `rgb(0,0,${b})`;
-        // }
+        const middle_output = predict_middle();
+        for (let i = 0; i < LAYERS.length; i++) {
+            for (let j = 0; j < LAYERS[i]; j++) {
+                const neuron = document.getElementById(`neuron${j}_layer${i}`);
+                const val = Math.min(255, Math.max(-255, Math.floor(255 * 10 * (middle_output[i][j] - 0.5))));
+                if (val < 0) {
+                    neuron.style.fill = `rgb(${-val},0,0)`;
+                    console.log(i, j, val, -val);
+                } else {
+                    neuron.style.fill = `rgb(0,${val},0)`;
+                }
+            }
+        }
     }
     function activateOutputNeurons() {
         const predicted_ch = predict_letter();
@@ -468,9 +475,9 @@
         // drop all layers
         model = tf.sequential();
         // add new layers
-        model.add(tf.layers.dense({ units: LAYERS[0], inputShape: [N_LETTERS * ALPHABET.length], activation: 'relu' }));
+        model.add(tf.layers.dense({ units: LAYERS[0], inputShape: [N_LETTERS * ALPHABET.length], activation: 'sigmoid' }));
         for (let i = 1; i < LAYERS.length; i++) {
-            model.add(tf.layers.dense({ units: LAYERS[i], activation: 'relu' }));
+            model.add(tf.layers.dense({ units: LAYERS[i], activation: 'sigmoid' }));
         }
         model.add(tf.layers.dense({ units: ALPHABET.length, biasInitializer: "randomNormal" }));
         model.add(tf.layers.softmax());
