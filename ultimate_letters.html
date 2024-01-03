@@ -295,7 +295,7 @@
             const ch = letters_input[i];
             const neuron = document.getElementById(`${ch}${n_input - i}_circle`);
             if (neuron != null) {
-                neuron.style.fill = '#f00';
+                neuron.style.fill = '#00f';
             }
         }
     }
@@ -326,8 +326,8 @@
         const max_probabilities = Math.max(...predicted_probabilities);
         for (let i = 0; i < predicted_probabilities.length; i++) {
             const neuron = document.getElementById(`${ALPHABET[i]}0_circle`);
-            const g = Math.min(255, Math.max(0, Math.floor(255 * (predicted_probabilities[i] / max_probabilities))));
-            neuron.style.fill = `rgb(${255 - g},255,${255 - g})`;
+            const b = Math.min(255, Math.max(0, Math.floor(255 * (predicted_probabilities[i] / max_probabilities))));
+            neuron.style.fill = `rgb(${255 - b},${255 - b},255)`;
         }
     }
     function connectPrimaryNeurons() {
