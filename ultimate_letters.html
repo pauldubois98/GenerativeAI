@@ -307,7 +307,6 @@
                 const val = Math.min(255, Math.max(-255, Math.floor(255 * 10 * (middle_output[i][j] - 0.5))));
                 if (val < 0) {
                     neuron.style.fill = `rgb(${-val},0,0)`;
-                    console.log(i, j, val, -val);
                 } else {
                     neuron.style.fill = `rgb(0,${val},0)`;
                 }
@@ -640,6 +639,11 @@
                 EPOCH++;
             } else {
                 await model.fit(train_xs, train_ys, { epochs: 1 })
+                for(let i = 0; i < model_middle.length; i++){
+                    for(let j = 0; j < model_middle[i].layers.length; j++){
+                        model_middle[i].layers[j].setWeights(model.layers[j].getWeights());
+                    }
+                }
                 const t = test();
                 log_epoch(t);
                 updateNeurons();
