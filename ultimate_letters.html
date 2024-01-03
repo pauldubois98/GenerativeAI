@@ -341,9 +341,8 @@
         top_middle_values = top_middle_output.values.dataSync();
         for (let i = 0; i < top_middle_indices.length; i++) {
             const neuron = document.getElementById(`neuron${top_middle_indices[i]}_layer${0}`);
-            positions.push([neuron.cx.animVal.value, neuron.cy.animVal.value, top_middle_values[i]]);
+            positions.push([neuron.cx.animVal.value, neuron.cy.animVal.value, -top_middle_values[i]]);
         }
-        console.log(positions);
         const raw_input = document.getElementById("input_letters").value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
         const n_input = Math.min(N_LETTERS, raw_input.length);
         const letters_input = raw_input.slice(-n_input);
@@ -383,38 +382,35 @@
         // document.getElementById("middle_connexions").innerHTML = out;
     }
     function connectLastNeuron() {
-        // const middle_output = predict_middle();
-        // const top_middle_output = tf.topk(middle_output, Math.floor(Math.sqrt(N_NEURONS)));
-        // const top_middle_indices = top_middle_output.indices.dataSync();
-        // const top_middle_values = top_middle_output.values.dataSync();
-        // var positions = [];
-        // var max_value = 0;
-        // var max_index = 0;
-        // for (let i = 0; i < top_middle_indices.length; i++) {
-        //     const neuron = document.getElementById(`neuron${i}`);
-        //     if (top_middle_values[i] > 0.5) {
-        //         positions.push([neuron.cx.animVal.value, neuron.cy.animVal.value, top_middle_values[i]]);
-        //     }
-        //     if (top_middle_values[i] > max_value) {
-        //         max_value = top_middle_values[i];
-        //         max_index = i;
-        //     }
-        // }
-        // if (positions.length == 0) {
-        //     const neuron = document.getElementById(`neuron${max_index}`);
-        //     positions.push([neuron.cx.animVal.value, neuron.cy.animVal.value, max_value]);
-        // }
-        // const predicted_ch = predict_letter();
-        // var out = '';
-        // const neuron = document.getElementById(`${predicted_ch}0_circle`);
-        // const x1 = neuron.cx.animVal.value;
-        // const y1 = neuron.cy.animVal.value;
-        // const v1 = 1;
-        // for (let j = 0; j < positions.length; j++) {
-        //     const [x2, y2, v2] = positions[j];
-        //     out += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" style="stroke:rgb(100,100,100);stroke-width:${Math.max(v2, 0.1)}" />`;
-        // }
-        // document.getElementById("end_connexions").innerHTML = out;
+        var out = '';
+        const last_layer_index = LAYERS.length - 1;
+        var middle_output_end = predict_middle()[last_layer_index];
+        var top_middle_output = tf.topk(middle_output_end, Math.floor(1 + Math.sqrt(LAYERS[last_layer_index]) / 3));
+        var top_middle_indices = top_middle_output.indices.dataSync();
+        var top_middle_values = top_middle_output.values.dataSync();
+        var positions = [];
+        for (let i = 0; i < top_middle_indices.length; i++) {
+            const neuron = document.getElementById(`neuron${top_middle_indices[i]}_layer${last_layer_index}`);
+            positions.push([neuron.cx.animVal.value, neuron.cy.animVal.value, top_middle_values[i]]);
+        }
+        top_middle_output = tf.topk(middle_output_end.map((e) => -e), Math.floor(1 + Math.sqrt(LAYERS[0]) / 3));
+        top_middle_indices = top_middle_output.indices.dataSync();
+        top_middle_values = top_middle_output.values.dataSync();
+        for (let i = 0; i < top_middle_indices.length; i++) {
+            const neuron = document.getElementById(`neuron${top_middle_indices[i]}_layer${last_layer_index}`);
+            positions.push([neuron.cx.animVal.value, neuron.cy.animVal.value, -top_middle_values[i]]);
+        }
+        const predicted_ch = predict_letter();
+        var out = '';
+        const neuron = document.getElementById(`${predicted_ch}0_circle`);
+        const x1 = neuron.cx.animVal.value;
+        const y1 = neuron.cy.animVal.value;
+        const v1 = 1;
+        for (let j = 0; j < positions.length; j++) {
+            const [x2, y2, v2] = positions[j];
+            out += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" style="stroke:rgb(100,100,100);stroke-width:${Math.max(v2, 0.1)}" />`;
+        }
+        document.getElementById("end_connexions").innerHTML = out;
     }
     function updateNeurons() {
         deactivateNeurons(); // reset all neurons
