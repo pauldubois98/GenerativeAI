@@ -46,3 +46,5 @@ All the ressources for the Generative AI talk given for Info@Lèze on the 4th of
 **Sandbox de dessin**
 
 - https://pauldubois98.github.io/GenerativeAI/drawing_sandbox.html?language=fr
+
+![Poster d'annonce](poster/poster.svg)
