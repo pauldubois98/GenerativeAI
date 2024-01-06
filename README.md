@@ -4,6 +4,8 @@ All the ressources for the Generative AI talk given for Info@Lèze on the 4th of
 
 ### Tools/demo links:
 
+Note that the demos work on all recent browsers, but the performances are often better on Chrome.
+
 **Statistics**
 
 - Word Generator n°1: https://pauldubois98.github.io/GenerativeAI/word_generator1.html
@@ -27,6 +29,8 @@ All the ressources for the Generative AI talk given for Info@Lèze on the 4th of
 ---
 
 ### Liens vers les outils/démos:
+
+Notez que les demo fonctionnent sur tous les navigateurs récents, mais les performances sont souvent meilleures sur Chrome.
 
 **Statistiques**
 
