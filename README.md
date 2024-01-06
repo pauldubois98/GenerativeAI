@@ -1,5 +1,7 @@
 # Generative AI
 
+✨Dive into the world of generative AI! Join your humble scientific servant as he demystifies for you the magic behind artificial intelligences creating images (Dall-E / Mid-Journey), text (e.g. ChatGPT), or even music (Music-LM). This presentation is suitable for artists, writers and curious minds, offering an insight into the possibilities and limits of AI algorithms.🌟🎨
+
 All the ressources for the Generative AI talk given for Info@Lèze on the 4th of January 2024.
 
 ### Tools/demo links:
@@ -27,6 +29,8 @@ Note that the demos work on all recent browsers, but the performances are often 
 - https://pauldubois98.github.io/GenerativeAI/drawing_sandbox.html
 
 ---
+
+✨Plongez dans le monde de l'IA générative ! Rejoignez votre humble serviteur scientifique qui démystifiera pour vous la magie derrière les intelligences artificielles créant des images (Dall-E / Mid-Journey), du texte (e.g. ChatGPT), ou même de la musique (Music-LM). Cette présentation est adaptée aux artistes, écrivains et esprits curieux, offrant un aperçu des possibilités et limites des algorithmes IA.🌟🎨
 
 ### Liens vers les outils/démos:
 
